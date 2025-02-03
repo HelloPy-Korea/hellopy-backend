@@ -6,22 +6,32 @@ description = "hellopy-backend"
 [tool.ruff]
 target-version = "py312"
 extend-exclude = [
-   "**/*.yaml", "**/.gitignore", "**/.ruff_cache/*", "**/.mypy_cache.*", 
-   "**/assets/*", "**/.vscode/*", "**/.git/*", "**/.idea/*"
+   "**/*.yaml",
+   "**/.gitignore",
+   "**/.ruff_cache/*",
+   "**/.mypy_cache.*",
+   "**/__pycache__/*",
+   "**/assets/*",
+   "**/.vscode/*",
+   "**/.git/*",
+   "**/.idea/*",
+   "**/temp/*",
+   "**/*venv*/*",
 ]
 line-length = 100
+fix = true
 indent-width = 4
 
-[tool.ruff.lint] 
+[tool.ruff.lint]
 select = ["I", "E4", "E7", "E9", "F"]
 ignore = []
 fixable = ["ALL"]
-unfixable= []
+unfixable = []
 
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
-skip-magic-trailing-comma= false
+skip-magic-trailing-comma = false
 line-ending = "auto"
-docstring-code-format= false
+docstring-code-format = false
 docstring-code-line-length = "dynamic"
