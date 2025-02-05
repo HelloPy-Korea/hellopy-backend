@@ -31,6 +31,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # Add User Application
+    "faq",
+    "rest_framework",
+    "drf_spectacular",
+    
     # Built-in Django Applications
     "django.contrib.admin",
     "django.contrib.auth",
@@ -41,6 +46,22 @@ INSTALLED_APPS = [
     # Local Applications
     "config",
 ]
+
+# spectacular settings
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'HelloPy Backend API',
+    'DEFAULT_SCHEMA_CLASS': 'HelloPy API Documentation',
+    'VERSION': '0.1.0',
+    # API 스키마 파일 직접 제공 여부
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_SETTINGS' : {
+        'persisAuthorization': True,
+    },
+}
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
