@@ -1,6 +1,8 @@
-from rest_framework import serializers
 from drf_spectacular.utils import extend_schema_field
+from rest_framework import serializers
+
 from .models import FAQ
+
 
 class FAQSerializer(serializers.ModelSerializer):
     status_display = serializers.SerializerMethodField()

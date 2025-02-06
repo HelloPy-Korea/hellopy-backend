@@ -1,6 +1,6 @@
-from django.shortcuts import render
-from rest_framework.viewsets import ModelViewSet
 from drf_spectacular.utils import extend_schema, extend_schema_view
+from rest_framework.viewsets import ModelViewSet
+
 from .models import FAQ
 from .serializers import FAQSerializer
 
