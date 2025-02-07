@@ -65,7 +65,9 @@ make setup
 ex) (id) -> 1
 
 ### (POST) FAQ 생성
-
+```bash
+{"status":"SUCCESS","error":null,"data":{"id":2,"question":"API란 무엇인가요?","answer":"API는 애플리케이션 간의 통신을 위한 인터페이스입니다.","is_deleted":false,"created_at":"2025-02-06T16:14:12.381235Z","updated_at":"2025-02-06T16:14:12.381272Z"}}
+```
 ```bash
 curl -X POST http://localhost:8080/api/faqs/ \
      -H "Content-Type: application/json" \
@@ -106,6 +108,7 @@ fetch("http://localhost:8080/api/faqs/")
 ```
 
 ### (GET) 특정 FAQ 조회
+- 리스트 조회
 ```bash
 curl -X GET http://localhost:8080/api/faqs/(id)/
 ```
@@ -115,6 +118,27 @@ fetch("http://localhost:8080/api/faqs/2/")
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(error => console.error("Error:", error));
+```
+
+- 페이지네이션
+```bash
+curl -X GET "http://localhost:8080/api/faqs/?page=1"
+```
+
+```javascript
+fetch("http://localhost:8080/api/faqs/?page=1&page_size=10", {
+    method: "GET",
+    headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+    }
+})
+.then(response => response.json())
+.then(data => {
+    console.log("FAQ 목록:", data.data);
+    console.log("페이지네이션 정보:", data.pagination);
+})
+.catch(error => console.error("Error fetching FAQs:", error));
 ```
 
 ### (PUT) FAQ 수정
@@ -130,14 +154,12 @@ curl -X PUT http://localhost:8080/api/faqs/(id)/ \
 ```
 
 ```javascript
-fetch("http://localhost:8080/api/faqs/2/", {
+fetch("http://localhost:8080/api/faqs/(id)/", {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
         question: "REST API란 무엇인가요?",
-        answer: "REST API는 HTTP를 통해 데이터를 전송하는 API입니다.",
-        question_type: "activity",
-        status: "normal"
+        answer: "REST API는 HTTP를 통해 데이터를 전송하는 API입니다."
     })
 })
 .then(response => response.json())
