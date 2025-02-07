@@ -35,7 +35,7 @@ INSTALLED_APPS = [
     "faq",
     "rest_framework",
     "drf_spectacular",
-    
+
     # Built-in Django Applications
     "django.contrib.admin",
     "django.contrib.auth",
@@ -64,7 +64,6 @@ SPECTACULAR_SETTINGS = {
         'persisAuthorization': True,
     },
 }
-
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
