@@ -56,7 +56,7 @@ class FAQViewSet(ModelViewSet):
                     "message": "조회할 FAQ 데이터가 없습니다."
                 },
                 "data": []
-            }, status=status.HTTP_202_ACCEPTED)
+            }, status=status.HTTP_200_OK)
         
         serializer = self.get_serializer(queryset, many=True)
         return Response({
@@ -86,7 +86,7 @@ class FAQViewSet(ModelViewSet):
                     "message": "해당 FAQ를 찾을 수 없습니다."
                 },
                 "data": None
-            }, status=status.HTTP_202_ACCEPTED)
+            }, status=status.HTTP_200_OK)
 
     def create(self, request, *args, **kwargs):
         """
@@ -103,14 +103,14 @@ class FAQViewSet(ModelViewSet):
                 "status": "SUCCESS",
                 "error": None,
                 "data": serializer.data
-            }, status=status.HTTP_201_CREATED)
+            }, status=status.HTTP_200_OK)
         return Response({
             "status": "ERROR",
             "error": {
                 "code": "Validation Error",
                 "message": serializer.errors
             }
-        }, status=status.HTTP_202_ACCEPTED)
+        }, status=status.HTTP_200_OK)
 
     def update(self, request, *args, **kwargs):
         try:
@@ -129,7 +129,7 @@ class FAQViewSet(ModelViewSet):
                     "code": "Validation Error",
                     "message": serializer.errors
                 }
-            }, status=status.HTTP_202_ACCEPTED)
+            }, status=status.HTTP_200_OK)
         except NotFound:
             return Response({
                 "status": "ERROR",
@@ -137,7 +137,7 @@ class FAQViewSet(ModelViewSet):
                     "code": "Not Found",
                     "message": "해당 FAQ를 찾을 수 없습니다."
                 }
-            }, status=status.HTTP_202_ACCEPTED)
+            }, status=status.HTTP_200_OK)
     
     def destroy(self, request, *args, **kwargs):
         """
@@ -160,4 +160,4 @@ class FAQViewSet(ModelViewSet):
                     "code": "Not Found",
                     "message": "해당 FAQ를 찾을 수 없습니다."
                 }
-            }, status=status.HTTP_202_ACCEPTED)
+            }, status=status.HTTP_200_OK)
