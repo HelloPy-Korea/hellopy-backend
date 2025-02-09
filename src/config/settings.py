@@ -27,31 +27,38 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
-# Application definition
-
-INSTALLED_APPS = [
-    # Add User Application
-    "faq",
+# 외부 라이브러리 (Third-party Apps)
+THIRD_PARTY_APPS = [
     "rest_framework",
     "drf_spectacular",
+]
 
-    # Built-in Django Applications
+# 로컬 애플리케이션 (Local Apps)
+LOCAL_APPS = [
+    "config",
+    "faq",
+]
+
+# 기본 장고 내장 앱 (Built-in Django Applications)
+DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    # Local Applications
-    "config",
 ]
+
+#INSTALLED_APPS 구성
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 # rest_framework settings
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
+    'MAX_PAGE_SIZE': 100,
+    'PAGE_SIZE_QUERY_PARAM': 'page_size',
 }
 # spectacular settings
 SPECTACULAR_SETTINGS = {

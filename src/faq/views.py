@@ -8,24 +8,8 @@ from .models import FAQ
 from .serializers import FAQSerializer
 
 
-class FAQPagination(PageNumberPagination):
-    """
-    ## DEFAULT_SETTING
-    - 한 페이지 : 10
-    - 한 번 요청의 최대 크기 : 100
-    ex)
-    bash
-    curl -X GET "http://hello-py.com:8080/api/faqs/?page=1&page_size=150"
-    -> 반환되는 data의 개수는 100개
-    더 많은 요청시 수정
-    """
-    page_size = 10
-    page_size_query_param = 'page_size'
-    max_page_size = 100  # page 단위의 요청 최대 size 
-
 class FAQViewSet(ModelViewSet):
     serializer_class = FAQSerializer
-    pagination_class = FAQPagination  # ✅ 페이지네이션 클래스 적용
 
     def get_queryset(self):
         """
