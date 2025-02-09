@@ -1,8 +1,13 @@
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import OpenApiResponse, extend_schema
 from rest_framework.viewsets import GenericViewSet
 
 from core.errors import NotExistException
 from core.responses.base import BaseResponse
+from core.responses.serializer import (
+    ErrorResponseSerializer,
+    ListSuccessResponseSerializer,
+    SuccessResponseSerializer,
+)
 
 from .models import FAQ
 from .serializers import FAQSerializer
@@ -17,7 +22,13 @@ class FAQViewSet(GenericViewSet):
         """
         return FAQ.objects.filter(is_deleted=False)
 
-    @extend_schema(description="모든 FAQ 목록 조회", responses={})
+    @extend_schema(
+        description="모든 FAQ 목록 조회",
+        responses={
+            "200/성공": ListSuccessResponseSerializer,
+            "200/에러": ErrorResponseSerializer,
+        },
+    )
     def list(self, request, *args, **kwargs):
         """
         ## 모든 FAQ 목록 조회
@@ -30,6 +41,19 @@ class FAQViewSet(GenericViewSet):
         serializer = self.get_serializer(page or queryset, many=True)
         return self.get_paginated_response(serializer.data)
 
+    @extend_schema(
+        description="모든 FAQ 목록 조회",
+        responses={
+            "200/성공": OpenApiResponse(
+                response=SuccessResponseSerializer,
+                description="응답 성공",
+            ),
+            "200/에러": OpenApiResponse(
+                response=ErrorResponseSerializer,
+                description="응답 에러",
+            ),
+        },
+    )
     def retrieve(self, request, *args, **kwargs):
         """
         ## 특정 FAQ 조회

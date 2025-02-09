@@ -17,34 +17,4 @@ class PageNumberPagination(DRFPageNumberPagination):
         return BaseResponse(data=data, pagination=pagination)
 
     def get_paginated_response_schema(self, schema: dict) -> dict:
-        return {
-            "type": "object",
-            "required": ["pagination", "data", "status"],
-            "properties": {
-                "status": {"type": "string", "example": "SUCCESS"},
-                "pagination": {
-                    "type": "object",
-                    "properties": {
-                        "count": {"type": "integer", "example": 123},
-                        "next": {
-                            "type": "string",
-                            "nullable": True,
-                            "format": "uri",
-                            "example": "http://api.example.org/accounts/?{page_query_param}=4".format(
-                                page_query_param=self.page_query_param
-                            ),
-                        },
-                        "previous": {
-                            "type": "string",
-                            "nullable": True,
-                            "format": "uri",
-                            "example": "http://api.example.org/accounts/?{page_query_param}=2".format(
-                                page_query_param=self.page_query_param
-                            ),
-                        },
-                    },
-                    "example": 123,
-                },
-                "data": schema,
-            },
-        }
+        return schema
