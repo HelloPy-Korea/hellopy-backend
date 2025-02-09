@@ -1,7 +1,10 @@
 from typing import Literal
 
 from rest_framework.response import Response
+from rest_framework.serializers import Serializer
 from rest_framework.status import HTTP_200_OK
+
+from core.responses.serializer import SuccessResponseSerializer
 
 
 class BaseResponse(Response):
@@ -28,3 +31,6 @@ class BaseResponse(Response):
 
     def __class_getitem__(cls, *args, **kwargs):
         return cls
+
+    def get_response_schema(self) -> Serializer:
+        return SuccessResponseSerializer()
