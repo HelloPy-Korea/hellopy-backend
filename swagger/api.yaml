@@ -5,32 +5,31 @@ info:
 paths:
   /api/faqs/:
     get:
-      operationId: faqs_list
+      operationId: faqs_retrieve
       description: 모든 FAQ 목록 조회
-      parameters:
-      - name: page
-        required: false
-        in: query
-        description: A page number within the paginated result set.
-        schema:
-          type: integer
-      - name: page_size
-        required: false
-        in: query
-        description: Number of results to return per page.
-        schema:
-          type: integer
       tags:
       - faqs
       security:
       - cookieAuth: []
       - basicAuth: []
       - {}
-      responses: {}
+      responses:
+        200/성공:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListSuccessResponse'
+          description: ''
+        200/에러:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: ''
   /api/faqs/{id}/:
     get:
-      operationId: faqs_retrieve
-      description: '## 특정 FAQ 조회'
+      operationId: faqs_retrieve_2
+      description: 모든 FAQ 목록 조회
       parameters:
       - in: path
         name: id
@@ -45,44 +44,81 @@ paths:
       - basicAuth: []
       - {}
       responses:
-        '200':
+        200/성공:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FAQ'
-          description: ''
+                $ref: '#/components/schemas/SuccessResponse'
+          description: 응답 성공
+        200/에러:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: 응답 에러
 components:
   schemas:
-    FAQ:
+    Error:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        question:
+        code:
           type: string
-          title: 질문
-          maxLength: 255
-        answer:
+        message:
           type: string
-          title: 답변
-        is_deleted:
-          type: boolean
-          title: 삭제 여부
-        created_at:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_at:
-          type: string
-          format: date-time
-          readOnly: true
       required:
-      - answer
-      - created_at
-      - id
-      - question
-      - updated_at
+      - code
+      - message
+    ErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          default: ERROR
+        error:
+          $ref: '#/components/schemas/Error'
+      required:
+      - error
+    ListSuccessResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          default: SUCCESS
+        data:
+          type: array
+          items:
+            type: object
+            additionalProperties: {}
+        pagination:
+          allOf:
+          - $ref: '#/components/schemas/PageNumberPagination'
+          nullable: true
+    PageNumberPagination:
+      type: object
+      properties:
+        count:
+          type: integer
+        next:
+          type: string
+        previous:
+          type: string
+      required:
+      - count
+      - next
+      - previous
+    SuccessResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          default: SUCCESS
+        data:
+          type: object
+          additionalProperties: {}
+        pagination:
+          allOf:
+          - $ref: '#/components/schemas/PageNumberPagination'
+          nullable: true
   securitySchemes:
     basicAuth:
       type: http
