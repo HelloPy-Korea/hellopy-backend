@@ -1,13 +1,37 @@
-from django.shortcuts import render
-from drf_spectacular.utils import extend_schema, extend_schema_view
+import os
+import uuid
+
+from django.conf import settings
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 from rest_framework import status
 from rest_framework.exceptions import NotFound
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.pagination import PageNumberPagination
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
+
 from .models import Notice
 from .serializers import NoticeSerializer
-# Create your views here.
+
+
+class CKEditorUploadView(APIView):
+    parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def post(self, request, *args, **kwargs):
+        if "upload" not in request.FILES:
+            return Response({"error": "No file uploaded"}, status=400)
+
+        image = request.FILES["upload"]
+        unique_filename = f"{uuid.uuid4()}_{image.name}"
+        image_path = os.path.join("uploads", unique_filename)
+
+        saved_path = default_storage.save(image_path, ContentFile(image.read()))
+        image_url = f"{settings.MEDIA_URL}{saved_path}"
+
+        return Response({"url": image_url}, status=201)
 
 class NoticeViewSet(ModelViewSet):
     serializer_class = NoticeSerializer
