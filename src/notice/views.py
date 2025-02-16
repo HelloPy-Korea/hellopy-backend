@@ -1,42 +1,67 @@
+import os
+import uuid
+
+from django.conf import settings
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 from rest_framework import status
 from rest_framework.exceptions import NotFound
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 
-from .models import FAQ
-from .serializers import FAQSerializer
+from .models import Notice
+from .serializers import NoticeSerializer
 
 
-class FAQViewSet(ModelViewSet):
-    serializer_class = FAQSerializer
+class CKEditorUploadView(APIView):
+    parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
+    def post(self, request, *args, **kwargs):
+        if "upload" not in request.FILES:
+            return Response({"error": "No file uploaded"}, status=400)
+
+        image = request.FILES["upload"]
+        unique_filename = f"{uuid.uuid4()}_{image.name}"
+        image_path = os.path.join("uploads", unique_filename)
+
+        saved_path = default_storage.save(image_path, ContentFile(image.read()))
+        image_url = f"{settings.MEDIA_URL}{saved_path}"
+
+        return Response({"url": image_url}, status=201)
+
+class NoticeViewSet(ModelViewSet):
+    serializer_class = NoticeSerializer
+    
     def get_queryset(self):
         """
-        ## queryset에서 is_deleted는 제외시켜주는 역할
+        ## is_deleted는 제외시켜주는 역할
         """
-        return FAQ.objects.filter(is_deleted=False)
-
+        return Notice.objects.filter(is_deleted=False)
+    
     def list(self, request, *args, **kwargs):
         """
-        ## 모든 FAQ 목록 조회
-        ### 특징 : is_deleted는 제외
+        ## Notice 조회 10개 씩
+        pagenation : ?page=1
         """
         queryset = self.get_queryset()
-        page = self.paginate_queryset(queryset)  # ✅ 페이지네이션 적용
+        page = self.paginate_queryset(queryset)
         if page is not None:
             serializer = self.get_serializer(page, many=True)
             return self.get_paginated_response({
                 "status": "SUCCESS",
                 "error": None,
                 "data": serializer.data
-            })
-        
+            }, status=status.HTTP_200_OK)
         if not queryset.exists():
             return Response({
                 "status": "ERROR",
                 "error": {
                     "code": "No Data",
-                    "message": "조회할 FAQ 데이터가 없습니다."
+                    "message": "조회할 공지사항 데이터가 없습니다."
                 },
                 "data": []
             }, status=status.HTTP_200_OK)
@@ -46,12 +71,12 @@ class FAQViewSet(ModelViewSet):
             "status": "SUCCESS",
             "error": None,
             "data": serializer.data,
-            "pagination": {}
+            "pagenation": {}
         }, status=status.HTTP_200_OK)
-
+        
     def retrieve(self, request, *args, **kwargs):
         """
-        ## 특정 FAQ 조회
+        ## 특정 Notice 조회
         """
         try:
             instance = self.get_object()
@@ -65,19 +90,15 @@ class FAQViewSet(ModelViewSet):
             return Response({
                 "status": "ERROR",
                 "error": {
-                    "code": "Not Found",
+                    "code": "ERROR",
                     "message": "해당 FAQ를 찾을 수 없습니다."
-                },
+                    },
                 "data": None
             }, status=status.HTTP_200_OK)
-
-    def create(self, request, *args, **kwargs):
+    def create(self, request, *arg, **kwargs):
         """
-        ## 새로운 FAQ 생성
-        - HelloPy 초기 홈페이지를 위한 api 아니며 
-          추후 createㅏ 페이지 생성을 고려한 함수
-        - 성공시 status : SUCCESS
-        - 실패시 status : ERROR
+        ## Notice Create
+        공지사항 생성 api
         """
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
@@ -94,7 +115,7 @@ class FAQViewSet(ModelViewSet):
                 "message": serializer.errors
             }
         }, status=status.HTTP_200_OK)
-
+    
     def update(self, request, *args, **kwargs):
         try:
             instance = self.get_object()
@@ -117,30 +138,29 @@ class FAQViewSet(ModelViewSet):
             return Response({
                 "status": "ERROR",
                 "error": {
-                    "code": "Not Found",
-                    "message": "해당 FAQ를 찾을 수 없습니다."
+                    "code": "Not Found Error",
+                    "message": "해당 Notice를 찾을 수 없습니다."
                 }
             }, status=status.HTTP_200_OK)
     
     def destroy(self, request, *args, **kwargs):
         """
-        ## FAQ 삭제 (Soft Delete)
-        - 실제 삭제가 아닌 `is_deleted=True`로 변경
+        ## notice 삭제
         """
         try:
-            faq = self.get_object()
-            faq.is_deleted = True
-            faq.save()
+            notice = self.get_object()
+            notice.is_deleted = True
+            notice.save()
             return Response({
                 "status": "SUCCESS",
                 "error": None,
-                "message": "FAQ 삭제 처리 완료"
+                "message": "Notice 삭제 처리 완료"
             }, status=status.HTTP_200_OK)
         except NotFound:
             return Response({
                 "status": "ERROR",
                 "error": {
                     "code": "Not Found",
-                    "message": "해당 FAQ를 찾을 수 없습니다."
+                    "message": "해당 Notice를 찾을 수 없습니다."
                 }
             }, status=status.HTTP_200_OK)
