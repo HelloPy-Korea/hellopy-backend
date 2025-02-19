@@ -5,6 +5,9 @@ setup:
 	uv sync
 	uv run src/manage.py makemigrations
 
+setup-dev: setup
+	uv run pre-commit install
+
 migration:
 	uv run src/manage.py migrate
 
