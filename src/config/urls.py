@@ -21,6 +21,7 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/faqs/', include('faq.urls')), # 앱의 urls.py를 포함
+    path('api/md/', include('md.urls'))
 ]
 
 # 개발 환경에서만 Swagger 및 Redoc 활성화
