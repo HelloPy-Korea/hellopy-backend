@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework.viewsets import ReadOnlyModelViewSet
+from .models import ManagementInfo
+from .serializers import ManagementInfoSerializer
 
-# Create your views here.
+class ManagementInfoViewSet(ReadOnlyModelViewSet):
+    queryset = ManagementInfo.objects.all()
+    serializer_class = ManagementInfoSerializer

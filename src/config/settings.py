@@ -37,6 +37,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "config",
     "faq",
+    "manage_info",
 ]
 
 # 기본 장고 내장 앱 (Built-in Django Applications)
