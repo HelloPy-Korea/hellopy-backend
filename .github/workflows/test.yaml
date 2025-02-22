@@ -22,6 +22,7 @@ jobs:
 
             - name: Install dependencies
               run: |
+                  pip install uv
                   uv sync --group dev
 
             - name: Run migrations
@@ -34,5 +35,4 @@ jobs:
 
             - name: Run Ruff for linting and formatting
               run: |
-                  pip install ruff
-                  ruff check .
+                  uv run ruff check .
