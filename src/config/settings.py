@@ -55,7 +55,7 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 # rest_framework settings
 REST_FRAMEWORK = {
-    "DEFAULT_SCHEMA_CLASS": "core.swagger.CustomAutoSchema",
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "core.paginations.PageNumberPagination",
     "EXCEPTION_HANDLER": "rest_framework.views.exception_handler",
     "PAGE_SIZE_QUERY_PARAM": "page_size",
