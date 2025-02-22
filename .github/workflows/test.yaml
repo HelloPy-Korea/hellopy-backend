@@ -22,17 +22,17 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  pip install uv
                   uv sync --group dev
 
-            - name: Check lint with ruff
-              run: uv run ruff check --no-fix
-
-            - name: Check code style with ruff
-              run: uv run ruff format --check .
-
             - name: Run migrations
-              run: make migration
+              run: |
+                  python manage.py migrate
 
             - name: Run tests
-              run: make test
+              run: |
+                  python manage.py test
+
+            - name: Run Ruff for linting and formatting
+              run: |
+                  pip install ruff
+                  ruff check .
