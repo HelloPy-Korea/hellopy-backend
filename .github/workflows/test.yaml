@@ -1,0 +1,33 @@
+name: Django Tests and Linting
+
+on: [push, pull_request]
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Set up Python
+              uses: actions/setup-python@v2
+              with:
+                  python-version: "3.12"
+
+            - name: Install dependencies
+              run: |
+                  uv sync --group dev
+
+            - name: Run migrations
+              run: |
+                  python manage.py migrate
+
+            - name: Run tests
+              run: |
+                  python manage.py test
+
+            - name: Run Ruff for linting and formatting
+              run: |
+                  pip install ruff
+                  ruff check .
