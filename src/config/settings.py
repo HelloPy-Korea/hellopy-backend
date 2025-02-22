@@ -37,6 +37,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "config",
     "faq",
+    "core",
 ]
 
 # 기본 장고 내장 앱 (Built-in Django Applications)
@@ -49,26 +50,26 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-#INSTALLED_APPS 구성
+# INSTALLED_APPS 구성
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 # rest_framework settings
 REST_FRAMEWORK = {
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
-    'MAX_PAGE_SIZE': 100,
-    'PAGE_SIZE_QUERY_PARAM': 'page_size',
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_PAGINATION_CLASS": "core.paginations.PageNumberPagination",
+    "PAGE_SIZE": 10,
+    "EXCEPTION_HANDLER": "rest_framework.views.exception_handler",
+    "MAX_PAGE_SIZE": 100,
 }
 # spectacular settings
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'HelloPy Backend API',
-    'DEFAULT_SCHEMA_CLASS': 'HelloPy API Documentation',
-    'VERSION': '0.1.0',
+    "TITLE": "HelloPy Backend API",
+    "DEFAULT_SCHEMA_CLASS": "HelloPy API Documentation",
+    "VERSION": "0.1.0",
     # API 스키마 파일 직접 제공 여부
-    'SERVE_INCLUDE_SCHEMA': False,
-    'SWAGGER_UI_SETTINGS' : {
-        'persisAuthorization': True,
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SWAGGER_UI_SETTINGS": {
+        "persisAuthorization": True,
     },
 }
 

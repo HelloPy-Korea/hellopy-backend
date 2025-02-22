@@ -5,6 +5,9 @@ setup:
 	uv sync
 	uv run src/manage.py makemigrations
 
+setup-dev: setup
+	uv run pre-commit install
+
 migration:
 	uv run src/manage.py migrate
 
@@ -22,3 +25,6 @@ e2e-test:
 
 test:
 	uv run src/manage.py test
+
+export-swagger:
+	uv run src/manage.py spectacular --file swagger/api.yaml
