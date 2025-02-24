@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -61,6 +62,11 @@ REST_FRAMEWORK = {
     'MAX_PAGE_SIZE': 100,
     'PAGE_SIZE_QUERY_PARAM': 'page_size',
 }
+
+# static files settings
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # spectacular settings
 SPECTACULAR_SETTINGS = {
     'TITLE': 'HelloPy Backend API',

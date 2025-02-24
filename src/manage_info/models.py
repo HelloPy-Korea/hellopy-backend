@@ -7,6 +7,7 @@ class ManagementInfo(models.Model):
     email = models.EmailField(unique=True, verbose_name="이메일")
     linkedin = models.TextField(blank=True, null=True, verbose_name="LinkedIn 프로필 URL")
     github = models.TextField(blank=True, null=True, verbose_name="Github 프로필 URL")
+    photo = models.ImageField(upload_to='photos/', blank=True, null=True, verbose_name="사진")
     
     def __str__(self):
         return self.name
