@@ -16,19 +16,22 @@ class ManagementInfoViewSet(ReadOnlyModelViewSet):
         queryset = self.filter_queryset(self.get_queryset())
         if not queryset.exists():
             return Response({
-                "status": "ERROR",
-                "error": {
-                    "code": "No Data",
-                    "message": "운영자 데이터가 없습니다"
+                "status_code": "200",
+                "body": {
+                    "code": "success",
+                    "message": "운영자 데이터가 없습니다",
+                    "data": [],
+                    "pagination": {}
                 },
-                "data": []
             }, status=status.HTTP_200_OK)
         
         serializer = self.get_serializer(queryset, many=True)
         return Response({
-            "status": "SUCCESS",
-            "error": None,
-            "data": serializer.data,
-            "pagination": {}
+            "status_code": "200",
+            "body": {
+                "code": "success",
+                "message": "성공",
+                "data": serializer.data,
+                "pagination": {}
+            }
         }, status=status.HTTP_200_OK)
-        
