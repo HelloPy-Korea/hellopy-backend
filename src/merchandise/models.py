@@ -8,9 +8,9 @@ class Merchandise(models.Model):
     ### MD 필드 정의
     """
 
-    product_name = models.CharField(max_length=255)
-    product_info = models.TextField(null=True, blank=True)
-    image = models.ImageField(upload_to="images/")
+    name = models.CharField("상품 이름", max_length=255)
+    description = models.TextField("상품 설명", null=True, blank=True)
+    image = models.ImageField("썸네일 이미지", upload_to="images/")
 
     def __str__(self):
-        return self.product_name
+        return self.name
