@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-class Md(models.Model):
+class Merchandise(models.Model):
     """
     ### MD 필드 정의
     """

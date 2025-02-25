@@ -2,16 +2,16 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
-from .models import Md
-from .serializers import MdSerializer
+from .models import Merchandise
+from .serializers import MerchandiseSerializer
 
 
-class MdViewSet(ReadOnlyModelViewSet):
+class MerchandiseViewSet(ReadOnlyModelViewSet):
     """
         MD 페이지는 상세보기 페이지가 존재하지 않으므로 retrieve는 생략되었습니다.
     """
-    queryset = Md.objects.all()
-    serializer_class = MdSerializer
+    queryset = Merchandise.objects.all()
+    serializer_class = MerchandiseSerializer
     
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())

@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from .models import Md
+from .models import Merchandise
 
 # Register your models here.
 
-@admin.register(Md)
-class MdAdmin(admin.ModelAdmin):
+@admin.register(Merchandise)
+class MerchandiseAdmin(admin.ModelAdmin):
     list_display = ('product_name', 'image')
