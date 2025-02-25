@@ -7,4 +7,4 @@ from .models import Merchandise
 
 @admin.register(Merchandise)
 class MerchandiseAdmin(admin.ModelAdmin):
-    list_display = ("product_name", "image")
+    list_display = ("name", "image")
