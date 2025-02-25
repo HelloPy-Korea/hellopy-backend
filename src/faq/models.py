@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class FAQ(models.Model):
     """
     ### FAQ 필드 정의

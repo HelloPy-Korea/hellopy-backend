@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Tag(models.Model):
     """
     참조 예시
