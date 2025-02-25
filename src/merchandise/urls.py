@@ -8,6 +8,6 @@ GET /Merchandise/{id}/ → 특정 Md 객체 조회 ✅
 """
 
 router = DefaultRouter()
-router.register(r'', MerchandiseViewSet, basename="merchandise")
+router.register(r"", MerchandiseViewSet, basename="merchandise")
 
 urlpatterns = router.urls

@@ -6,4 +6,4 @@ from .models import Merchandise
 class MerchandiseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Merchandise
-        fields = '__all__'
+        fields = "__all__"
