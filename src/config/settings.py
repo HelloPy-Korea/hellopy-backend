@@ -65,12 +65,9 @@ INSTALLED_APPS = THIRD_PARTY_APPS + DJANGO_APPS + LOCAL_APPS
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "core.paginations.PageNumberPagination",
-<<<<<<< HEAD
+
     "EXCEPTION_HANDLER": "core.middlewares.exception_handler.custom_exception_handler",
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
-=======
-    "EXCEPTION_HANDLER": "rest_framework.views.exception_handler",
->>>>>>> c10b530 (Feature/swagger (#32))
     "PAGE_SIZE_QUERY_PARAM": "page_size",
     "PAGE_SIZE": 10,
     "MAX_PAGE_SIZE": 100,
