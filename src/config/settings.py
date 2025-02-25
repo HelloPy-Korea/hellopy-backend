@@ -38,6 +38,7 @@ LOCAL_APPS = [
     "config",
     "faq",
     "core",
+    "merchandise",
 ]
 
 # 기본 장고 내장 앱 (Built-in Django Applications)
