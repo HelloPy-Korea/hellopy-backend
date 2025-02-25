@@ -1,0 +1,21 @@
+FROM --platform=amd64 ubuntu:24.04
+
+ENV WORKSPACE=/workspace
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get -qq update && apt-get install -y \
+    python3 \
+    python3-pip \
+    vim
+
+WORKDIR $WORKSPACE
+
+COPY . .
+
+RUN pip3 install uv --break-system-packages
+RUN uv sync --group dev
+RUN make migration
+
+EXPOSE 8080
+
+CMD ["make", "run"]
