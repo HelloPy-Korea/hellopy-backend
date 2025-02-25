@@ -4,6 +4,8 @@ HOST=0.0.0.0
 setup:
 	uv sync
 	uv run src/manage.py makemigrations
+
+setup-dev: setup
 	uv run pre-commit install
 
 migration:
@@ -23,3 +25,6 @@ e2e-test:
 
 test:
 	uv run src/manage.py test
+
+export-swagger:
+	uv run src/manage.py spectacular --file swagger/api.yaml

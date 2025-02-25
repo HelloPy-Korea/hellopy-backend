@@ -35,6 +35,7 @@ THIRD_PARTY_APPS = ["rest_framework", "drf_spectacular", "jazzmin"]
 LOCAL_APPS = [
     "config",
     "faq",
+    "core",
     "merchandise",
 ]
 
@@ -54,10 +55,11 @@ INSTALLED_APPS = THIRD_PARTY_APPS + DJANGO_APPS + LOCAL_APPS
 # rest_framework settings
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
-    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "DEFAULT_PAGINATION_CLASS": "core.paginations.PageNumberPagination",
+    "EXCEPTION_HANDLER": "rest_framework.views.exception_handler",
+    "PAGE_SIZE_QUERY_PARAM": "page_size",
     "PAGE_SIZE": 10,
     "MAX_PAGE_SIZE": 100,
-    "PAGE_SIZE_QUERY_PARAM": "page_size",
 }
 # spectacular settings
 SPECTACULAR_SETTINGS = {
