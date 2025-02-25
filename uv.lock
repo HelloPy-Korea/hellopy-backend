@@ -52,6 +52,19 @@ wheels = [
 ]
 
 [[package]]
+name = "django-ckeditor-5"
+version = "0.2.17"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "pillow" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/11/11/361508b0bb69f53c9bea0d5b18d1e8f5ac9efc8e3df0009ef0565458e0dd/django_ckeditor_5-0.2.17.tar.gz", hash = "sha256:ce1ab6e21010d6742618275e237d042b1b15645dda3258f7e960b57e93268caf", size = 2599298 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6e/f0/49d44536350321209324daf9df8ec788d2f65bea890c15f4be289cedadc5/django_ckeditor_5-0.2.17-py3-none-any.whl", hash = "sha256:16d4113bad7a80a82046c461a6b5bd03592f5215dc1d10d85ee9481d9f6257b7", size = 2699183 },
+]
+
+[[package]]
 name = "django-jazzmin"
 version = "3.0.1"
 source = { registry = "https://pypi.org/simple" }
@@ -107,6 +120,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "django" },
+    { name = "django-ckeditor-5" },
     { name = "django-jazzmin" },
     { name = "djangorestframework" },
     { name = "pillow" },
@@ -123,6 +137,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "django", specifier = ">=5.1.5" },
+    { name = "django-ckeditor-5" },
     { name = "django-jazzmin", specifier = ">=3.0.1" },
     { name = "djangorestframework", specifier = ">=3.15.2" },
     { name = "pillow", specifier = ">=11.1.0" },
