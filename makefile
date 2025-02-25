@@ -4,7 +4,6 @@ HOST=0.0.0.0
 setup:
 	uv sync
 	uv run src/manage.py makemigrations
-	uv run pre-commit install
 
 setup-dev: setup
 	uv run pre-commit install
