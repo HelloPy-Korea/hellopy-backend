@@ -34,6 +34,7 @@ THIRD_PARTY_APPS = ["rest_framework", "drf_spectacular", "jazzmin"]
 LOCAL_APPS = [
     "config",
     "faq",
+    "merchandise",
 ]
 
 # 기본 장고 내장 앱 (Built-in Django Applications)
