@@ -1,9 +1,10 @@
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
+
 from .models import ManagementInfo
 from .serializers import ManagementInfoSerializer
-from rest_framework.response import Response
-from rest_framework import status
-from .serializers import ManagementInfoSerializer
+
 
 class ManagementInfoViewSet(ReadOnlyModelViewSet):
     """

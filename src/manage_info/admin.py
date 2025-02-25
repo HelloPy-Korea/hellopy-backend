@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from .models import ManagementInfo
 
 # Register your models here.

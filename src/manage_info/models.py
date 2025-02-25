@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # Create your models here.
 class ManagementInfo(models.Model):
     name = models.CharField(max_length=10, verbose_name="이름")
