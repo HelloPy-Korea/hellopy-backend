@@ -169,3 +169,17 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# UV
+.python-version
+
+# vscode settings
+.vscode/
+
+# Docker Compose
+docker-compose.yaml
+
+# Django Resource Files
+**/media/*
+**/staticfiles/*
+**/static/*
