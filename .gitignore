@@ -178,3 +178,8 @@ cython_debug/
 
 # Docker Compose
 docker-compose.yaml
+
+# Django Resource Files
+**/media/*
+**/staticfiles/*
+**/static/*
