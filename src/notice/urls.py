@@ -1,8 +1,8 @@
 from rest_framework.routers import DefaultRouter
 
-from .views import MerchandiseViewSet
+from .views import NoticeViewSet
 
 router = DefaultRouter()
-router.register(r"", MerchandiseViewSet, basename="merchandise")
+router.register("", NoticeViewSet, basename="notice")
 
 urlpatterns = router.urls

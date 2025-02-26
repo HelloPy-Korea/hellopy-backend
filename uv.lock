@@ -1,4 +1,5 @@
 version = 1
+revision = 1
 requires-python = ">=3.12"
 
 [[package]]
@@ -49,6 +50,31 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/e4/17/834e3e08d590dcc27d4cc3c5cd4e2fb757b7a92bab9de8ee402455732952/Django-5.1.5.tar.gz", hash = "sha256:19bbca786df50b9eca23cee79d495facf55c8f5c54c529d9bf1fe7b5ea086af3", size = 10700031 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/11/e6/e92c8c788b83d109f34d933c5e817095d85722719cb4483472abc135f44e/Django-5.1.5-py3-none-any.whl", hash = "sha256:c46eb936111fffe6ec4bc9930035524a8be98ec2f74d8a0ff351226a3e52f459", size = 8276957 },
+]
+
+[[package]]
+name = "django-ckeditor-5"
+version = "0.2.17"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+    { name = "pillow" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/11/11/361508b0bb69f53c9bea0d5b18d1e8f5ac9efc8e3df0009ef0565458e0dd/django_ckeditor_5-0.2.17.tar.gz", hash = "sha256:ce1ab6e21010d6742618275e237d042b1b15645dda3258f7e960b57e93268caf", size = 2599298 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/6e/f0/49d44536350321209324daf9df8ec788d2f65bea890c15f4be289cedadc5/django_ckeditor_5-0.2.17-py3-none-any.whl", hash = "sha256:16d4113bad7a80a82046c461a6b5bd03592f5215dc1d10d85ee9481d9f6257b7", size = 2699183 },
+]
+
+[[package]]
+name = "django-filter"
+version = "25.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "django" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b5/40/c702a6fe8cccac9bf426b55724ebdf57d10a132bae80a17691d0cf0b9bac/django_filter-25.1.tar.gz", hash = "sha256:1ec9eef48fa8da1c0ac9b411744b16c3f4c31176c867886e4c48da369c407153", size = 143021 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/07/a6/70dcd68537c434ba7cb9277d403c5c829caf04f35baf5eb9458be251e382/django_filter-25.1-py3-none-any.whl", hash = "sha256:4fa48677cf5857b9b1347fed23e355ea792464e0fe07244d1fdfb8a806215b80", size = 94114 },
 ]
 
 [[package]]
@@ -107,6 +133,8 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "django" },
+    { name = "django-ckeditor-5" },
+    { name = "django-filter" },
     { name = "django-jazzmin" },
     { name = "djangorestframework" },
     { name = "pillow" },
@@ -123,6 +151,8 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "django", specifier = ">=5.1.5" },
+    { name = "django-ckeditor-5" },
+    { name = "django-filter", specifier = ">=25.1" },
     { name = "django-jazzmin", specifier = ">=3.0.1" },
     { name = "djangorestframework", specifier = ">=3.15.2" },
     { name = "pillow", specifier = ">=11.1.0" },
