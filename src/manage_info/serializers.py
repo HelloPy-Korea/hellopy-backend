@@ -6,4 +6,4 @@ from .models import ManagementInfo
 class ManagementInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ManagementInfo
-        fields = '__all__'
+        fields = "__all__"

@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = []
@@ -26,21 +25,15 @@ class Migration(migrations.Migration):
                 ("role", models.CharField(max_length=10, verbose_name="역할")),
                 (
                     "email",
-                    models.EmailField(
-                        max_length=254, unique=True, verbose_name="이메일"
-                    ),
+                    models.EmailField(max_length=254, unique=True, verbose_name="이메일"),
                 ),
                 (
                     "linkedin",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="LinkedIn 프로필 URL"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="LinkedIn 프로필 URL"),
                 ),
                 (
                     "github",
-                    models.TextField(
-                        blank=True, null=True, verbose_name="Github 프로필 URL"
-                    ),
+                    models.TextField(blank=True, null=True, verbose_name="Github 프로필 URL"),
                 ),
                 (
                     "photo",

@@ -14,14 +14,15 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/faqs/', include('faq.urls')), # 앱의 urls.py를 포함
-    path('api/manageinfo', include('manage_info.urls')),
+    path("admin/", admin.site.urls),
+    path("api/faqs/", include("faq.urls")),  # 앱의 urls.py를 포함
+    path("api/manageinfo", include("manage_info.urls")),
 ]
 
 # 개발 환경에서만 Swagger 및 Redoc 활성화
@@ -31,8 +32,9 @@ if settings.DEBUG:
         SpectacularRedocView,
         SpectacularSwaggerView,
     )
+
     urlpatterns += [
-        path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
-        path('api/docs/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
-        path('api/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
+        path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+        path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+        path("api/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
     ]
