@@ -1,11 +1,14 @@
+from drf_spectacular.utils import extend_schema_view
 from rest_framework.viewsets import GenericViewSet
 
 from core.responses.base import BaseResponse
 
 from .models import Notice
 from .serializers import NoticeSerializer
+from .swagger import NoticeAPIDocs
 
 
+@extend_schema_view(list=NoticeAPIDocs.list(), retrieve=NoticeAPIDocs.retrieve())
 class NoticeViewSet(GenericViewSet):
     serializer_class = NoticeSerializer
     queryset = Notice.objects.filter(is_deleted=False)
