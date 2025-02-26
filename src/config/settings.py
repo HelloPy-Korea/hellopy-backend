@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from os import environ
 from pathlib import Path
-import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,7 +29,13 @@ DEBUG = environ.get("DEBUG", False)
 ALLOWED_HOSTS = environ.get("ALLOWED_HOSTS", "").split(",")
 
 # 외부 라이브러리 (Third-party Apps)
-THIRD_PARTY_APPS = ["rest_framework", "drf_spectacular", "jazzmin", "django_ckeditor_5"]
+THIRD_PARTY_APPS = [
+    "rest_framework",
+    "drf_spectacular",
+    "jazzmin",
+    "django_ckeditor_5",
+    "django_filters",
+]
 
 # 로컬 애플리케이션 (Local Apps)
 LOCAL_APPS = [
@@ -59,6 +64,7 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "core.paginations.PageNumberPagination",
     "EXCEPTION_HANDLER": "core.middlewares.exception_handler.custom_exception_handler",
+    "Default_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "PAGE_SIZE_QUERY_PARAM": "page_size",
     "PAGE_SIZE": 10,
     "MAX_PAGE_SIZE": 100,
@@ -72,7 +78,6 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # CKEditor 기본 설정 (추가 or 제거 할 설정 pr에 적어주시길)
 customColorPalette = [
