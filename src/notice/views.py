@@ -4,15 +4,21 @@ from rest_framework.viewsets import GenericViewSet
 from core.responses.base import BaseResponse
 
 from .models import Notice
-from .serializers import NoticeSerializer
+from .serializers import NoticeSerializer, NoticeSummarizeListSerializer
 from .swagger import NoticeAPIDocs
 
 
 @extend_schema_view(list=NoticeAPIDocs.list(), retrieve=NoticeAPIDocs.retrieve())
 class NoticeViewSet(GenericViewSet):
-    serializer_class = NoticeSerializer
     queryset = Notice.objects.filter(is_deleted=False)
     filterset_fields = ("is_pinned",)
+
+    def get_serializer_class(self):
+        match self.action:
+            case "list":
+                return NoticeSummarizeListSerializer
+            case "retrieve":
+                return NoticeSerializer
 
     def list(self, request, *args, **kwargs) -> BaseResponse:
         queryset = self.get_queryset()
