@@ -16,6 +16,7 @@ FROM python:3.12-slim
 
 ENV PYTHONBUFFERED=1
 ENV WORKSPACE=/workspace
+ENV ALLOWED_HOSTS="admin.hello-py.com,hello-py.com,localhost"
 
 WORKDIR $WORKSPACE
 
