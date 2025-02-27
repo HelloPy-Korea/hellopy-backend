@@ -9,10 +9,14 @@ setup-dev: setup
 	uv run pre-commit install
 
 migration:
+	uv run src/manage.py makemigrations
 	uv run src/manage.py migrate
 
 run:
 	uv run src/manage.py runserver $(HOST):$(PORT)
+
+run-dev:
+	DEBUG=True ALLOWED_HOSTS=* uv run src/manage.py runserver $(HOST):$(PORT)
 
 unit-test:
 	uv run src/manage.py test --tag=unit
