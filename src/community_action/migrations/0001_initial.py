@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -74,9 +73,7 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "tag",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="public.tag"
-                    ),
+                    models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to="public.tag"),
                 ),
             ],
             options={
