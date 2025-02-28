@@ -46,6 +46,8 @@ LOCAL_APPS = [
     "merchandise",
     "notice",
     "pymon_calendar",
+    "community_action",
+    "public",
 ]
 
 # 기본 장고 내장 앱 (Built-in Django Applications)
