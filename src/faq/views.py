@@ -1,4 +1,3 @@
-
 from drf_spectacular.utils import extend_schema_view
 from rest_framework.viewsets import GenericViewSet
 
@@ -27,4 +26,3 @@ class FAQViewSet(GenericViewSet):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return BaseResponse(serializer.data)
-
