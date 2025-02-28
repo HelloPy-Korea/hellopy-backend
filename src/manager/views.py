@@ -10,9 +10,6 @@ from .swagger import ManagerAPIDocs
 
 @extend_schema_view(list=ManagerAPIDocs.list())
 class ManagerViewSet(GenericViewSet):
-    """
-    운영진을 세부정보는 없을것이라 판단하고 retrieve는 제외시킴
-    """
 
     serializer_class = ManagerSerializer
 
