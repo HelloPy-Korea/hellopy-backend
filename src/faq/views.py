@@ -18,6 +18,7 @@ class FAQViewSet(GenericViewSet):
     def list(self, request, *args, **kwargs) -> BaseResponse:
         queryset = self.get_queryset()
         page = self.paginate_queryset(queryset)  # ✅ 페이지네이션 적용
+
         serializer = self.get_serializer(page or queryset, many=True)
         return self.get_paginated_response(serializer.data)
 
