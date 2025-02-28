@@ -8,9 +8,6 @@ setup:
 setup-dev: setup
 	uv run pre-commit install
 
-setup-dev: setup
-	uv run pre-commit install
-
 migration:
 	uv run src/manage.py makemigrations
 	uv run src/manage.py migrate

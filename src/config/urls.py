@@ -28,6 +28,7 @@ urlpatterns = [
     path("api/notice/", include("notice.urls")),
     path("api/calendar/", include("pymon_calendar.urls")),
     path("api/manageinfo", include("manager.urls")),
+
     *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]
