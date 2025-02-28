@@ -26,6 +26,7 @@ urlpatterns = [
     path("api/faqs/", include("faq.urls")),  # 앱의 urls.py를 포함
     path("api/merchandise/", include("merchandise.urls")),
     path("api/notice/", include("notice.urls")),
+    path("api/calendar/", include("pymon_calendar.urls")),
     *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]
