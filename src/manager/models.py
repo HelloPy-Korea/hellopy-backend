@@ -2,7 +2,7 @@ from django.db import models
 
 
 # Create your models here.
-class ManagementInfo(models.Model):
+class Manager(models.Model):
     name = models.CharField(max_length=10, verbose_name="이름")
     role = models.CharField(max_length=10, verbose_name="역할")
     email = models.EmailField(unique=True, verbose_name="이메일")

@@ -41,7 +41,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "config",
     "faq",
-    "manage_info",
+    "manager",
     "core",
     "merchandise",
     "notice",
