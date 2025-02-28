@@ -3,7 +3,6 @@ from drf_spectacular.utils import OpenApiExample, OpenApiResponse
 from core.responses.serializer import (
     ErrorResponseSerializer,
     ListSuccessResponseSerializer,
-    SuccessResponseSerializer,
 )
 from core.swagger import SwaggerSchema
 
