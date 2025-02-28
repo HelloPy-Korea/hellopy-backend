@@ -64,7 +64,7 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "core.paginations.PageNumberPagination",
     "EXCEPTION_HANDLER": "core.middlewares.exception_handler.custom_exception_handler",
-    "Default_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "PAGE_SIZE_QUERY_PARAM": "page_size",
     "PAGE_SIZE": 10,
     "MAX_PAGE_SIZE": 100,
