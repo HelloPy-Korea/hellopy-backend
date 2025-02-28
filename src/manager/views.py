@@ -10,7 +10,6 @@ from .swagger import ManagerAPIDocs
 
 @extend_schema_view(list=ManagerAPIDocs.list())
 class ManagerViewSet(GenericViewSet):
-
     serializer_class = ManagerSerializer
 
     def get_queryset(self):
