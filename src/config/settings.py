@@ -46,7 +46,7 @@ LOCAL_APPS = [
     "merchandise",
     "notice",
     "pymon_calendar",
-    "community_action",
+    "activity_gallery",
     "public",
 ]
 

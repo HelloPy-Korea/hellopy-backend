@@ -1,3 +1,4 @@
+from django.utils.dateparse import parse_date
 from drf_spectacular.utils import extend_schema_view
 from rest_framework.viewsets import GenericViewSet
 
@@ -8,13 +9,20 @@ from .serializers import PymonCalendarSerializer
 from .swagger import PymonCalendarAPIDocs
 
 
-# Create your views here.
 @extend_schema_view(list=PymonCalendarAPIDocs.list())
 class PymonCalendarViewSet(GenericViewSet):
     serializer_class = PymonCalendarSerializer
 
     def get_queryset(self):
-        return PymonCalendar.objects.all()
+        queryset = PymonCalendar.objects.all()
+        year_month = self.request.query_params.get("year_month")
+
+        if year_month:
+            parsed_date = parse_date(year_month + "-01")
+            if parsed_date:
+                queryset = queryset.filter(year_month=parsed_date)
+
+        return queryset
 
     def list(self, request, *args, **kwargs) -> BaseResponse:
         queryset = self.get_queryset()
