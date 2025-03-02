@@ -41,9 +41,13 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "config",
     "faq",
+    "manager",
     "core",
     "merchandise",
     "notice",
+    "pymon_calendar",
+    "activity_gallery",
+    "public",
 ]
 
 # 기본 장고 내장 앱 (Built-in Django Applications)
@@ -225,7 +229,7 @@ CKEDITOR_5_CONFIGS = {
 SPECTACULAR_SETTINGS = {
     "TITLE": "HelloPy Backend API",
     "DEFAULT_SCHEMA_CLASS": "HelloPy API Documentation",
-    "VERSION": "0.1.0",
+    "VERSION": "0.3.0",
     # API 스키마 파일 직접 제공 여부
     "SERVE_INCLUDE_SCHEMA": False,
     "SWAGGER_UI_SETTINGS": {
