@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("faq", "0005_alter_faq_is_deleted"),
     ]
