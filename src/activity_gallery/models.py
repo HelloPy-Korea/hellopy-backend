@@ -9,7 +9,7 @@ class ActivityAction(models.Model):
     """
 
     title = models.CharField(max_length=20, verbose_name="활동명")
-    thumbnail = models.ImageField("썸네일 이미지", upload_to="imgages/", null=True, blank=True)
+    thumbnail = models.ImageField("썸네일 이미지", upload_to="imgages/")
     content = models.TextField(verbose_name="내용")
     tags = models.ManyToManyField(Tag, through="ActivityTag", related_name="actions")
 
