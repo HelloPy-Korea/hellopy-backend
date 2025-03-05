@@ -40,4 +40,11 @@ class ActivityActionDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ActivityAction
-        fields = ["id", "title", "thumbnail", "content", "tags", "photos"]  # 상세 조회 시 모든 정보 포함
+        fields = [
+            "id",
+            "title",
+            "thumbnail",
+            "content",
+            "tags",
+            "photos",
+        ]  # 상세 조회 시 모든 정보 포함

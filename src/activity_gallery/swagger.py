@@ -36,7 +36,7 @@ class ActivityActionAPIDocs(SwaggerSchema):
                                 {
                                     "id": 2,
                                     "title": "파이콘",
-                                    "thumbnail":"null",
+                                    "thumbnail": "null",
                                     "tags": [],
                                 },
                             ],
