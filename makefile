@@ -1,5 +1,6 @@
 PORT=8080
 HOST=0.0.0.0
+COVERAGE_TARGET=src
 
 setup:
 	uv sync
@@ -19,16 +20,23 @@ run-dev:
 	DEBUG=True ALLOWED_HOSTS=* uv run src/manage.py runserver $(HOST):$(PORT)
 
 unit-test:
-	uv run src/manage.py test --tag=unit
+	uv run pytest -m unit
 
 feature-test:
-	uv run src/manage.py test --tag=feature
+	uv run pytest -m feature
 
 e2e-test:
-	uv run src/manage.py test --tag=e2e
+	uv run pytest -m e2e
 
 test:
-	uv run src/manage.py test
+	uv run pytest
+
+ptw:
+	uv run ptw .
+
+test-report:
+	uv run pytest --cov-report term-missing --cov=$(COVERAGE_TARGET)
+	uv run coverage html
 
 export-swagger:
 	uv run src/manage.py spectacular --file swagger/api.yaml

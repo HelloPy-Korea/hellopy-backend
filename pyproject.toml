@@ -47,5 +47,75 @@ line-ending = "auto"
 docstring-code-format = false
 docstring-code-line-length = "dynamic"
 
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+pythonpath = ". src"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+markers = [
+   "slow: mark tests that take a long time to run",
+   "unit: mark tests that are unit tests",
+   "feature: mark tests that are feature tests",
+   "e2e: mark tests that are end-to-end tests",
+]
+
+[tool.pytest-watcher]
+runner = "pytest"
+delay = 0.2
+clear = true
+now = false
+runner_args = []
+patterns = ["*.py"]
+ignore_patterns = [
+   "apps.py",
+   "admin.py",
+   "urls.py",
+   "asgi.py",
+   "wsgi.py",
+   "swagger.py",
+   "**/migrations/*.py",
+]
+
+[tool.coverage.run]
+branch = true
+omit = [
+   "admin.py",
+   "urls.py",
+   "asgi.py",
+   "wsgi.py",
+   "swagger.py",
+   "**/migrations/*.py",
+   "src/core/*",
+   "src/config/*",
+]
+
+[tool.coverage.report]
+exclude_lines = ["pragma: no cover"]
+exclude_also = [
+   # Don't complain about missing debug-only code:
+   "def __repr__",
+   "if self\\.debug",
+
+   # Don't complain if tests don't hit defensive assertion code:
+   "raise AssertionError",
+   "raise NotImplementedError",
+
+   # Don't complain if non-runnable code isn't run:
+   "if 0:",
+   "if __name__ == .__main__.:",
+
+   # Don't complain about abstract methods, they aren't run:
+   "@(abc\\.)?abstractmethod",
+]
+
+[tool.coverage.html]
+skip_empty = true
+
 [dependency-groups]
-dev = ["drf-spectacular>=0.28.0", "pre-commit>=4.1.0", "ruff>=0.9.4"]
+dev = [
+   "drf-spectacular>=0.28.0",
+   "pre-commit>=4.1.0",
+   "pytest-cov>=6.0.0",
+   "pytest-django>=4.10.0",
+   "pytest-watcher>=0.4.3",
+   "ruff>=0.9.4",
+]
