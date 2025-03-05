@@ -4,9 +4,12 @@ from public.models import Tag
 
 
 class ActivityAction(models.Model):
-    """커뮤니티 활동 모델"""
+    """
+    ### 커뮤니티 활동 모델
+    """
 
     title = models.CharField(max_length=20, verbose_name="활동명")
+    thumbnail = models.ImageField("썸네일 이미지", upload_to="imgages/")
     content = models.TextField(verbose_name="내용")
     tags = models.ManyToManyField(Tag, through="ActivityTag", related_name="actions")
 

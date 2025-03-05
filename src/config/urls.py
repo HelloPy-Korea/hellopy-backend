@@ -22,12 +22,13 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("ckeditor5/", include("django_ckeditor_5.urls")),
-    path("api/faqs/", include("faq.urls")),  # 앱의 urls.py를 포함
+    path("ckeditor5/", include("django_ckeditor_5.urls")),  # ckeditor5
+    path("api/faqs/", include("faq.urls")),
     path("api/merchandise/", include("merchandise.urls")),
     path("api/notice/", include("notice.urls")),
     path("api/calendar/", include("pymon_calendar.urls")),
-    path("api/manageinfo", include("manager.urls")),
+    path("api/manager", include("manager.urls")),
+    path("api/activity-gallery/", include("activity_gallery.urls")),
     *static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]

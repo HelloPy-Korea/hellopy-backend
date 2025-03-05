@@ -27,6 +27,7 @@ class ActivityActionAPIDocs(SwaggerSchema):
                                 {
                                     "id": 1,
                                     "title": "활동",
+                                    "thumbnail": "http://(image URL)",
                                     "tags": [
                                         {"id": 1, "name": "python"},
                                         {"id": 2, "name": "문법"},
@@ -35,6 +36,7 @@ class ActivityActionAPIDocs(SwaggerSchema):
                                 {
                                     "id": 2,
                                     "title": "파이콘",
+                                    "thumbnail": "null",
                                     "tags": [],
                                 },
                             ],
