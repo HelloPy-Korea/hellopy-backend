@@ -14,7 +14,7 @@ class FAQ(models.Model):
 
     class Meta:
         verbose_name = "FAQ"
-        verbose_name_plural = "FAQs"
+        verbose_name_plural = "자주하는 질문"
 
     def __str__(self):
         return self.question

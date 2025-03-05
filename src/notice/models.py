@@ -11,7 +11,7 @@ class Notice(models.Model):
     updated_at = models.DateTimeField("수정 일시", auto_now=True)
 
     class Meta:
-        verbose_name = "공지"
+        verbose_name = "notice"
         verbose_name_plural = "공지사항"
 
     def __str__(self):
