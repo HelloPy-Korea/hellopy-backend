@@ -13,7 +13,12 @@ class Notice(models.Model):
 
     def clean(self):
         super().clean()
-        if self.content.strip() in ("", "<p>&nbsp;</p>", "<p><br></p>"):
+        if self.content.strip() in (
+            "",
+            "<p>&nbsp;</p>",
+            "<p>&nbsp;</p><p>&nbsp;</p>",
+            "<p>&nbsp;&nbsp;</p><p><br></p>",
+        ):
             raise ValidationError({"content": "내용을 입력해주세요."})
 
     class Meta:
