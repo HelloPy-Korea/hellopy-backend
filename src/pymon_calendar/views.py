@@ -14,7 +14,9 @@ class PymonCalendarViewSet(GenericViewSet):
     serializer_class = PymonCalendarSerializer
 
     def get_queryset(self):
-        queryset = PymonCalendar.objects.all()
+        queryset = PymonCalendar.objects.all().order_by(
+            "-year_month"
+        )  # 최신 데이터가 먼저 오도록 정렬
         year_month = self.request.query_params.get("year_month")
 
         if year_month:
