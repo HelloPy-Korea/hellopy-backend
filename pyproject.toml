@@ -84,8 +84,9 @@ omit = [
    "wsgi.py",
    "swagger.py",
    "**/migrations/*.py",
-   "src/core/*",
    "src/config/*",
+   "apps.py",
+   "test*.py",
 ]
 
 [tool.coverage.report]
