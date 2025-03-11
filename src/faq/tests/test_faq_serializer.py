@@ -1,3 +1,5 @@
+from typing import Any
+
 import pytest
 from rest_framework.exceptions import ValidationError
 
@@ -19,9 +21,11 @@ from faq.serializers import FAQSerializer
         ),
     ],
 )
-def test_faq_serializer_is_valid_true_given_valid_data(question, answer, is_deleted):
+def test_faq_serializer_is_valid_true_given_valid_data(
+    question: str, answer: str, is_deleted: bool
+) -> None:
     # Given
-    valid_data = {
+    valid_data: dict[str, Any] = {
         "question": question,
         "answer": answer,
         "is_deleted": is_deleted,
@@ -29,7 +33,7 @@ def test_faq_serializer_is_valid_true_given_valid_data(question, answer, is_dele
 
     # When
     serializer = FAQSerializer(data=valid_data)
-    is_valid = serializer.is_valid()
+    is_valid: bool = serializer.is_valid()
 
     # Then
     assert is_valid is True
@@ -49,11 +53,14 @@ def test_faq_serializer_is_valid_true_given_valid_data(question, answer, is_dele
             "The best way to learn Python is to practice coding every day.",
             None,
         ),
+        ("a" * 256, "The best way to learn Python is to practice coding every day.", False),
     ],
 )
-def test_faq_serializer_is_valid_false_given_invalid_data(question, answer, is_deleted):
+def test_faq_serializer_is_valid_false_given_invalid_data(
+    question: str | None, answer: str | None, is_deleted: bool | None
+) -> None:
     # Given
-    invalid_data = {
+    invalid_data: dict[str, Any] = {
         "question": question,
         "answer": answer,
         "is_deleted": is_deleted,
@@ -61,7 +68,7 @@ def test_faq_serializer_is_valid_false_given_invalid_data(question, answer, is_d
 
     # When
     serializer = FAQSerializer(data=invalid_data)
-    is_valid = serializer.is_valid()
+    is_valid: bool = serializer.is_valid()
 
     # Then
     assert is_valid is False
@@ -83,9 +90,11 @@ def test_faq_serializer_is_valid_false_given_invalid_data(question, answer, is_d
         ),
     ],
 )
-def test_faq_serializer_create_success_given_valid_data(question, answer, is_deleted):
+def test_faq_serializer_create_success_given_valid_data(
+    question: str, answer: str, is_deleted: bool
+) -> None:
     # Given
-    valid_data = {
+    valid_data: dict[str, Any] = {
         "question": question,
         "answer": answer,
         "is_deleted": is_deleted,
@@ -136,11 +145,16 @@ def test_faq_serializer_create_success_given_valid_data(question, answer, is_del
     ],
 )
 def test_faq_serializer_update_success_given_valid_data(
-    question, answer, is_deleted, updated_question, updated_answer, updated_is_deleted
-):
+    question: str,
+    answer: str,
+    is_deleted: bool,
+    updated_question: str,
+    updated_answer: str,
+    updated_is_deleted: bool,
+) -> None:
     # Given
-    valid_data = {"question": question, "answer": answer, "is_deleted": is_deleted}
-    update_data = {
+    valid_data: dict[str, Any] = {"question": question, "answer": answer, "is_deleted": is_deleted}
+    update_data: dict[str, Any] = {
         "question": updated_question,
         "answer": updated_answer,
         "is_deleted": updated_is_deleted,
@@ -187,14 +201,27 @@ def test_faq_serializer_update_success_given_valid_data(
             None,
             "Invalid Updated Is Deleted",
         ),
+        (
+            "Question 1",
+            "The best way to learn Python is to practice coding every day.",
+            False,
+            "a" * 256,
+            "The best way to learn Python is to practice coding every day.",
+            False,
+        ),
     ],
 )
 def test_faq_serializer_update_failure_given_invalid_data(
-    question, answer, is_deleted, updated_question, updated_answer, updated_is_deleted
-):
+    question: str,
+    answer: str,
+    is_deleted: bool,
+    updated_question: str | None,
+    updated_answer: str | None,
+    updated_is_deleted: bool | str | None,
+) -> None:
     # Given
-    valid_data = {"question": question, "answer": answer, "is_deleted": is_deleted}
-    update_data = {
+    valid_data: dict[str, Any] = {"question": question, "answer": answer, "is_deleted": is_deleted}
+    update_data: dict[str, Any] = {
         "question": updated_question,
         "answer": updated_answer,
         "is_deleted": updated_is_deleted,
