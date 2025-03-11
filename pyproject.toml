@@ -57,6 +57,9 @@ markers = [
    "feature: mark tests that are feature tests",
    "e2e: mark tests that are end-to-end tests",
 ]
+filterwarnings = [
+   "ignore::django.utils.deprecation.RemovedInDjango60Warning"
+]
 
 [tool.pytest-watcher]
 runner = "pytest"
