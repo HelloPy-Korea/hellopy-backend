@@ -1,7 +1,9 @@
 from django.db import models
 
+from core.mixins.models import SoftDeleteModel
 
-class FAQ(models.Model):
+
+class FAQ(SoftDeleteModel):
     """
     ### FAQ 필드 정의
     """
