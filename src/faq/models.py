@@ -17,6 +17,7 @@ class FAQ(SoftDeleteModel):
     class Meta:
         verbose_name = "FAQ"
         verbose_name_plural = "자주하는 질문"
+        ordering = ["-created_at"]
 
     def __str__(self):
         return self.question
