@@ -41,9 +41,13 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "config",
     "faq",
+    "manager",
     "core",
     "merchandise",
     "notice",
+    "pymon_calendar",
+    "activity_gallery",
+    "public",
 ]
 
 # 기본 장고 내장 앱 (Built-in Django Applications)
@@ -64,7 +68,7 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "core.paginations.PageNumberPagination",
     "EXCEPTION_HANDLER": "core.middlewares.exception_handler.custom_exception_handler",
-    "Default_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "PAGE_SIZE_QUERY_PARAM": "page_size",
     "PAGE_SIZE": 10,
     "MAX_PAGE_SIZE": 100,
@@ -225,7 +229,7 @@ CKEDITOR_5_CONFIGS = {
 SPECTACULAR_SETTINGS = {
     "TITLE": "HelloPy Backend API",
     "DEFAULT_SCHEMA_CLASS": "HelloPy API Documentation",
-    "VERSION": "0.1.0",
+    "VERSION": "0.3.0",
     # API 스키마 파일 직접 제공 여부
     "SERVE_INCLUDE_SCHEMA": False,
     "SWAGGER_UI_SETTINGS": {
@@ -299,7 +303,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "ko-kr"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Seoul"
 
 USE_I18N = True
 

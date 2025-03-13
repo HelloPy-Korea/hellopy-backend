@@ -16,5 +16,9 @@ class Tag(models.Model):
 
     name = models.CharField(max_length=100, unique=True)
 
+    class Meta:
+        verbose_name = "공통 모듈"
+        verbose_name_plural = "태그 관리"
+
     def __str__(self):
         return self.name

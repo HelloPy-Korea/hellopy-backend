@@ -5,7 +5,7 @@ from django.db import models
 
 class Merchandise(models.Model):
     """
-    ### MD 필드 정의
+    ### MD 모델
     """
 
     name = models.CharField("상품 이름", max_length=255)
