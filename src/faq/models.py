@@ -8,7 +8,6 @@ class FAQ(SoftDeleteModel):
     ### FAQ 필드 정의
     """
 
-    is_deleted = models.BooleanField(default=False, verbose_name="숨김 여부")
     question = models.CharField(max_length=255, verbose_name="질문")
     answer = models.TextField(verbose_name="답변")
     created_at = models.DateTimeField(auto_now_add=True)
