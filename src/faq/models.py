@@ -1,12 +1,13 @@
 from django.db import models
 
+from core.mixins.models import SoftDeleteModel
 
-class FAQ(models.Model):
+
+class FAQ(SoftDeleteModel):
     """
     ### FAQ 필드 정의
     """
 
-    is_deleted = models.BooleanField(default=False, verbose_name="숨김 여부")
     question = models.CharField(max_length=255, verbose_name="질문")
     answer = models.TextField(verbose_name="답변")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -15,6 +16,7 @@ class FAQ(models.Model):
     class Meta:
         verbose_name = "FAQ"
         verbose_name_plural = "자주하는 질문"
+        ordering = ["-created_at"]
 
     def __str__(self):
         return self.question
