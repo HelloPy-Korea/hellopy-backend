@@ -1,13 +1,12 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from .models import ActionPhoto, ActivityAction, ActivityTag, ActivityTagRelation
 
-from .models import ActionPhoto, ActivityAction, ActivityTag, Tag
 
-
-class ActivityTagInline(admin.TabularInline):
+class ActivityTagRelationInline(admin.TabularInline):
     """ActivityAction에 연결된 태그를 추가하는 인라인"""
 
-    model = ActivityTag
+    model = ActivityTagRelation
     extra = 1
     autocomplete_fields = ["tag"]  # 태그 자동 완성 기능 추가
 
@@ -35,7 +34,7 @@ class ActivityActionAdmin(admin.ModelAdmin):
 
     list_display = ("id", "title", "content_preview")
     search_fields = ("title", "content")
-    inlines = [ActivityTagInline, ActionPhotoInline]  # 태그 & 사진 추가 가능
+    inlines = [ActivityTagRelationInline, ActionPhotoInline]  # 태그 관계 및 사진 추가 가능
 
     def content_preview(self, obj):
         """내용이 길 경우 일부만 미리보기"""
@@ -44,9 +43,9 @@ class ActivityActionAdmin(admin.ModelAdmin):
     content_preview.short_description = "내용 미리보기"
 
 
-@admin.register(Tag)
-class TagAdmin(admin.ModelAdmin):
-    """태그 관리자 페이지"""
+@admin.register(ActivityTag)
+class ActivityTagAdmin(admin.ModelAdmin):
+    """활동 태그 관리자 페이지"""
 
     list_display = ("id", "name")
     search_fields = ("name",)
