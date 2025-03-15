@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = []
@@ -26,9 +25,7 @@ class Migration(migrations.Migration):
                 ("title", models.CharField(max_length=20, verbose_name="활동명")),
                 (
                     "thumbnail",
-                    models.ImageField(
-                        upload_to="imgages/", verbose_name="썸네일 이미지"
-                    ),
+                    models.ImageField(upload_to="imgages/", verbose_name="썸네일 이미지"),
                 ),
                 ("content", models.TextField(verbose_name="내용")),
             ],
