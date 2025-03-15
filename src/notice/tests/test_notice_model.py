@@ -1,4 +1,5 @@
 import pytest
+from django.core.exceptions import ValidationError
 from django.db.utils import DatabaseError
 
 from notice.models import Notice
@@ -257,3 +258,37 @@ def test_delete_notice_when_hard_delete_operation(
     # Then
     with pytest.raises(Notice.DoesNotExist):
         Notice.objects.get(id=notice_id)
+
+
+def test_clean_with_valid_content():
+    notice = Notice(
+        title="Valid Notice",
+        content="<p>This is valid content.</p>",
+        is_pinned=False,
+    )
+    try:
+        notice.clean()
+    except ValidationError as exc:
+        pytest.fail(f"Unexpected ValidationError raised: {exc}")
+
+
+@pytest.mark.parametrize(
+    "invalid_content",
+    [
+        "",
+        "<p>&nbsp;</p>",
+        "<p>&nbsp;</p><p>&nbsp;</p>",
+        "<p>&nbsp;&nbsp;</p>",
+        "<p><br></p>",
+    ],
+)
+def test_clean_with_invalid_content(invalid_content):
+    notice = Notice(
+        title="Invalid Notice",
+        content=invalid_content,
+        is_pinned=False,
+    )
+    with pytest.raises(ValidationError) as exc_info:
+        notice.clean()
+    errors = exc_info.value.message_dict
+    assert "content" in errors
