@@ -12,14 +12,12 @@ class Notice(models.Model):
     updated_at = models.DateTimeField("수정 일시", auto_now=True)
 
     def clean(self):
-        super().clean()
-        if self.content.strip() in (
-            "",
-            "<p>&nbsp;</p>",
-            "<p>&nbsp;</p><p>&nbsp;</p>",
-            "<p>&nbsp;&nbsp;</p>",
-            "<p><br></p>",
-        ):
+        from bs4 import BeautifulSoup
+
+        # HTML 태그 제거 테스트 추출
+        soup = BeautifulSoup(self.content, "html.parser")
+
+        if not soup.get_text(strip=True):
             raise ValidationError({"content": "내용을 입력해주세요."})
 
     class Meta:
