@@ -4,6 +4,8 @@ from rest_framework import status
 from rest_framework.test import APIClient
 
 from notice.models import Notice
+from notice.serializers import NoticeSerializer, NoticeSummarizeListSerializer
+from notice.views import NoticeViewSet
 
 pytestmark = pytest.mark.django_db
 
@@ -39,6 +41,29 @@ def deleted_notices() -> list[Notice]:
         is_deleted=True,
     )
     return [notice1]
+
+
+@pytest.fixture
+def viewset_instance():
+    return NoticeViewSet()
+
+
+def test_get_serializer_class_list(viewset_instance):
+    viewset_instance.action = "list"
+    serializer_class = viewset_instance.get_serializer_class()
+    assert serializer_class == NoticeSummarizeListSerializer
+
+
+def test_get_serializer_class_retrieve(viewset_instance):
+    viewset_instance.action = "retrieve"
+    serializer_class = viewset_instance.get_serializer_class()
+    assert serializer_class == NoticeSerializer
+
+
+def test_get_serializer_class_unknown_action(viewset_instance):
+    viewset_instance.action = "update"
+    serializer_class = viewset_instance.get_serializer_class()
+    assert serializer_class is None
 
 
 def test_list_notice_only_is_pinned_is_true(client: APIClient, notices: list[Notice]) -> None:
