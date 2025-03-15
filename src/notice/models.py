@@ -42,6 +42,7 @@ class Notice(SoftDeleteModel):
     class Meta:
         verbose_name = "공지사항"
         verbose_name_plural = "공지사항"
+        ordering = ("-created_at",)
 
     def __str__(self):
         return self.title
