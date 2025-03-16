@@ -8,7 +8,8 @@ class PymonCalendar(models.Model):
     calendar_photo = models.ImageField(upload_to="calendar/", blank=False, null=False)
 
     class Meta:
-        verbose_name = "Calendar"
+        verbose_name = "캘린더"
+        verbose_name_plural = "캘린더"
 
     def __str__(self):
         return str(self.year_month)
