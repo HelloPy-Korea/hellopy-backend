@@ -13,6 +13,7 @@ class NoticeAPIDocs(SwaggerSchema):
         "id": 1,
         "title": "공지 사항 제목 1",
         "content": "<div>공지 사항 입니다.</div>",
+        "tags": [{"id": 1, "name": "태그1"}, {"id": 2, "name": "태그2"}],
         "is_pinned": True,
         "created_at": "2021-01-01 00:00:00",
         "updated_at": "2021-01-01 00:00:00",
@@ -21,11 +22,13 @@ class NoticeAPIDocs(SwaggerSchema):
         {
             "id": 2,
             "title": "공지 사항 제목 2",
+            "tags": [{"id": 1, "name": "태그1"}, {"id": 2, "name": "태그2"}],
             "is_pinned": True,
         },
         {
             "id": 1,
             "title": "공지 사항 제목 1",
+            "tags": [{"id": 1, "name": "태그1"}, {"id": 2, "name": "태그2"}],
             "is_pinned": True,
         },
     ]

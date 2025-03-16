@@ -10,6 +10,8 @@ class ActivityTagRelationInline(admin.TabularInline):
     model = ActivityTagRelation
     extra = 1
     autocomplete_fields = ["tag"]  # 태그 자동 완성 기능 추가
+    verbose_name = "활동 태그"
+    verbose_name_plural = "활동 태그"
 
 
 class ActionPhotoInline(admin.TabularInline):
@@ -19,6 +21,8 @@ class ActionPhotoInline(admin.TabularInline):
     extra = 1
     fields = ("image", "image_preview")
     readonly_fields = ("image_preview",)
+    verbose_name = "이미지 추가"
+    verbose_name_plural = "이미지 추가"
 
     def image_preview(self, obj):
         """업로드된 이미지를 미리보기로 표시"""
