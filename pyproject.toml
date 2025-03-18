@@ -12,6 +12,7 @@ dependencies = [
    "pillow>=11.1.0",
    "django-ckeditor-5",
    "django-filter>=25.1",
+   "beautifulsoup4>=4.13.3",
 ]
 
 [tool.ruff]
