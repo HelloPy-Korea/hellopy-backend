@@ -42,7 +42,7 @@ class ActivityTag(models.Model):
 
 class NoticeTag(models.Model):
     notice_action = models.ForeignKey(
-        "notice.Notice", on_delete=models.CASCADE, related_name="activity_tags"
+        "notice.Notice", on_delete=models.CASCADE, related_name="notice_tags"
     )
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
