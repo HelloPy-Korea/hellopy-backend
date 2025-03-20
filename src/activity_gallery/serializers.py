@@ -1,19 +1,9 @@
 from rest_framework import serializers
 
-from public.models import ActivityTag, Tag
+from public.models import ActivityTag
+from public.serializers import TagSerializer
 
 from .models import ActionPhoto, ActivityAction
-
-
-# 태그 정보를 직렬화하는 Serializer
-class TagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tag
-        fields = ["id", "name"]  # 태그 ID와 이름만 포함
-
-    def create(self, validated_data):
-        validated_data["domain"] = "activity"
-        return super().create(validated_data)
 
 
 # 액션과 연결된 사진 정보를 직렬화하는 Serializer

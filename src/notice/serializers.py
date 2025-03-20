@@ -1,18 +1,8 @@
 from rest_framework import serializers
 
-from public.models import Tag
+from public.serializers import TagSerializer
 
 from .models import Notice
-
-
-class TagSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Tag
-        fields = ["id", "name", "domain"]
-
-    def create(self, validated_data):
-        validated_data["domain"] = "notice"
-        return super().create(validated_data)
 
 
 # 목록 데이터 반환 Serializer

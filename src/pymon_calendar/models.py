@@ -8,8 +8,8 @@ class PymonCalendar(models.Model):
     calendar_photo = models.ImageField(upload_to="calendar/", blank=False, null=False)
 
     class Meta:
-        verbose_name = "캘린더 관리"
-        verbose_name_plural = "캘린더 관리"
+        verbose_name = "이달의 달력"
+        verbose_name_plural = "이달의 달력"
 
     def __str__(self):
         return str(self.year_month)

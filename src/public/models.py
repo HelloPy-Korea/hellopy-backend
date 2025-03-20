@@ -8,7 +8,7 @@ class Tag(models.Model):
         ("default", "Default"),  # default 라는 선택지를 추가
     ]
 
-    name = models.CharField("태그", max_length=100, unique=True)
+    name = models.CharField("태그", max_length=100)
     domain = models.CharField("도메인", max_length=10, choices=DOMAIN_CHOICES, default="default")
 
     class Meta:
@@ -17,10 +17,6 @@ class Tag(models.Model):
         verbose_name_plural = "전체 태그 관리"
 
     def __str__(self):
-        """
-        f스트링 사용 이유 : tag에 빈값(migration 이전 null 값들)이 들어간 경우
-        default 부분인 점을 인지하기 위해서
-        """
         return f"[{self.domain}] {self.name}"
 
 
@@ -35,6 +31,7 @@ class ActivityTag(models.Model):
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
 
     class Meta:
+        # 같은 활동에 같은 태그를 붙이지 못하도록
         unique_together = ("activity_action", "tag")
         verbose_name = "활동 태그"
         verbose_name_plural = "활동 태그"
