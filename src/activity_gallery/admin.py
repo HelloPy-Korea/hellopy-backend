@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from .models import ActionPhoto, ActivityAction, ActivityTag, Tag
+from public.models import ActivityTag, Tag
+
+from .models import ActionPhoto, ActivityAction
 
 
 class ActivityTagInline(admin.TabularInline):
@@ -9,7 +11,21 @@ class ActivityTagInline(admin.TabularInline):
 
     model = ActivityTag
     extra = 1
-    autocomplete_fields = ["tag"]  # 태그 자동 완성 기능 추가
+
+    def formfield_for_foreignkey(self, db_field, request=None, **kwargs):
+        if db_field.name == "tag":
+            # Activity 도메인용 태그만 필터링
+            kwargs["queryset"] = Tag.objects.filter(domain="activity")
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    # 저장 전에 domain 자동 세팅
+    def save_new_instance(self, obj, *args, **kwargs):
+        if obj.tag and obj.tag.domain != "activity":
+            obj.tag.domain = "activity"
+            obj.tag.save()
+
+    verbose_name = "활동 태그"
+    verbose_name_plural = "활동 태그"
 
 
 class ActionPhotoInline(admin.TabularInline):
@@ -42,11 +58,3 @@ class ActivityActionAdmin(admin.ModelAdmin):
         return obj.content[:50] + "..." if len(obj.content) > 50 else obj.content
 
     content_preview.short_description = "내용 미리보기"
-
-
-@admin.register(Tag)
-class TagAdmin(admin.ModelAdmin):
-    """태그 관리자 페이지"""
-
-    list_display = ("id", "name")
-    search_fields = ("name",)

@@ -11,6 +11,47 @@ from core.swagger import SwaggerSchema
 class ActivityActionAPIDocs(SwaggerSchema):
     """커뮤니티 활동 API 문서"""
 
+    sample_activity_detail = {
+        "id": 1,
+        "title": "공지 사항 제목 1",
+        "content": "월드 와이드 파이콘",
+        "thumbnail": "http://(image URL)",
+        "tags": [
+            {"id": 1, "name": "python"},
+            {"id": 2, "name": "문법"},
+        ],
+    }
+    sample_activity_list = [
+        {
+            "id": 1,
+            "title": "공지 사항 제목 1",
+            "content": "월드 와이드 파이콘",
+            "thumbnail": "http://(image URL)",
+            "tags": [
+                {"id": 1, "name": "python"},
+                {"id": 2, "name": "문법"},
+            ],
+            "photos": [
+                "http://(image URL)",
+                "http://(image URL)",
+            ],
+        },
+        {
+            "id": 2,
+            "title": "공지 사항 제목 2",
+            "content": "월드 와이드 파이콘2",
+            "thumbnail": "http://(image URL)",
+            "tags": [
+                {"id": 1, "name": "python2"},
+                {"id": 2, "name": "문법2"},
+            ],
+            "photos": [
+                "http://(image URL)",
+                "http://(image URL)",
+            ],
+        },
+    ]
+
     @classmethod
     def list(cls):
         """커뮤니티 활동 목록 조회 문서"""
@@ -21,26 +62,7 @@ class ActivityActionAPIDocs(SwaggerSchema):
                 examples=[
                     OpenApiExample(
                         name="커뮤니티 활동 목록 조회",
-                        value={
-                            "status": "SUCCESS",
-                            "data": [
-                                {
-                                    "id": 1,
-                                    "title": "활동",
-                                    "thumbnail": "http://(image URL)",
-                                    "tags": [
-                                        {"id": 1, "name": "python"},
-                                        {"id": 2, "name": "문법"},
-                                    ],
-                                },
-                                {
-                                    "id": 2,
-                                    "title": "파이콘",
-                                    "thumbnail": "null",
-                                    "tags": [],
-                                },
-                            ],
-                        },
+                        value={"status": "SUCCESS", "data": cls.sample_activity_list},
                     ),
                     OpenApiExample(
                         name="커뮤니티 활동 목록 조회 (데이터 없음)",
@@ -69,22 +91,7 @@ class ActivityActionAPIDocs(SwaggerSchema):
                 examples=[
                     OpenApiExample(
                         name="커뮤니티 활동 상세 조회",
-                        value={
-                            "status": "SUCCESS",
-                            "data": {
-                                "id": 1,
-                                "title": "활동",
-                                "content": "월드 와이드 파이콘",
-                                "tags": [
-                                    {"id": 1, "name": "python"},
-                                    {"id": 2, "name": "문법"},
-                                ],
-                                "photos": [
-                                    {"id": 1, "image": "/media/activity_photos/photo1.jpg"},
-                                    {"id": 2, "image": "/media/activity_photos/photo2.jpg"},
-                                ],
-                            },
-                        },
+                        value={"status": "SUCCESS", "data": cls.sample_activity_detail},
                     ),
                 ],
             ),
