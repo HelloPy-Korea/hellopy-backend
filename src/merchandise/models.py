@@ -1,6 +1,6 @@
-from django.db import models
+import os
 
-# Create your models here.
+from django.db import models
 
 
 class Merchandise(models.Model):
@@ -15,6 +15,12 @@ class Merchandise(models.Model):
     class Meta:
         verbose_name = "MD 상품 관리"
         verbose_name_plural = "MD 상품 관리"
+
+    def delete(self, *args, **kwargs):
+        # 연결된 이미지 파일 삭제
+        if self.image and os.path.isfile(self.image.path):
+            os.remove(self.image.path)
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return self.name
