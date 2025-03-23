@@ -10,7 +10,7 @@ class Merchandise(models.Model):
 
     name = models.CharField("상품 이름", max_length=255)
     description = models.TextField("상품 설명", null=True, blank=True)
-    image = models.ImageField("썸네일 이미지", upload_to="images/")
+    image = models.ImageField("썸네일 이미지", upload_to="merchandise/image/")
 
     class Meta:
         verbose_name = "MD 상품 관리"

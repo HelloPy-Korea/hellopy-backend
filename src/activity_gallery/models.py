@@ -9,7 +9,7 @@ class ActivityAction(models.Model):
     """
 
     title = models.CharField(max_length=20, verbose_name="활동명")
-    thumbnail = models.ImageField("썸네일 이미지", upload_to="imgages/")
+    thumbnail = models.ImageField("썸네일 이미지", upload_to="activity/thumbnail/")
     content = models.TextField(verbose_name="내용")
     tags = models.ManyToManyField(Tag, through=ActivityTag, related_name="actions")
 
@@ -27,7 +27,7 @@ class ActionPhoto(models.Model):
     activity_action = models.ForeignKey(
         ActivityAction, on_delete=models.CASCADE, related_name="photos", null=True, blank=True
     )
-    image = models.ImageField(upload_to="activity_photos/")
+    image = models.ImageField(upload_to="activity/action-photo/")
 
     def __str__(self):
         return f"Photo for {self.activity_action.title if self.activity_action else 'No Activity'}"

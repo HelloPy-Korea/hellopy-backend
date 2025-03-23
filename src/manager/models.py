@@ -8,7 +8,9 @@ class Manager(models.Model):
     email = models.EmailField(unique=True, verbose_name="이메일")
     linkedin = models.TextField(blank=True, null=True, verbose_name="LinkedIn 프로필 URL")
     github = models.TextField(blank=True, null=True, verbose_name="Github 프로필 URL")
-    photo = models.ImageField(upload_to="photos/", blank=True, null=True, verbose_name="사진")
+    photo = models.ImageField(
+        upload_to="manager/photo/", blank=True, null=True, verbose_name="사진"
+    )
 
     class Meta:
         verbose_name = "운영진 관리"
