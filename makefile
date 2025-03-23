@@ -14,9 +14,11 @@ migration:
 	uv run src/manage.py migrate
 
 run:
+	uv run src/manage.py migrate
 	uv run src/manage.py runserver $(HOST):$(PORT)
 
-run-dev:
+run-dev: setup
+	uv run src/manage.py migrate
 	DEBUG=True ALLOWED_HOSTS=* uv run src/manage.py runserver $(HOST):$(PORT)
 
 unit-test:
