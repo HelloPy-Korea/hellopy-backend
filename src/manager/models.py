@@ -1,3 +1,5 @@
+import os
+
 from django.db import models
 
 
@@ -15,6 +17,12 @@ class Manager(models.Model):
     class Meta:
         verbose_name = "운영진 관리"
         verbose_name_plural = "운영진 관리"
+
+    def delete(self, *args, **kwargs):
+        # 연결된 이미지 삭제
+        if self.photo and os.path.isfile(self.photo.path):
+            os.remove(self.photo.path)
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return self.name
