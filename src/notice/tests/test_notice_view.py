@@ -1,13 +1,12 @@
 import pytest
+from django.forms.models import model_to_dict
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from notice.models import Notice
+from notice.models import Notice, Tag
 from notice.serializers import NoticeSerializer, NoticeSummarizeListSerializer
 from notice.views import NoticeViewSet
-
-pytestmark = pytest.mark.django_db
 
 
 @pytest.fixture
@@ -17,6 +16,8 @@ def client() -> APIClient:
 
 @pytest.fixture
 def notices() -> list[Notice]:
+    tag1 = Tag.objects.create(name="Tag A", domain="notice")
+    tag2 = Tag.objects.create(name="Tag B", domain="notice")
     notice1 = Notice.objects.create(
         title="Important Update",
         content="This is an important update.",
@@ -29,6 +30,8 @@ def notices() -> list[Notice]:
         is_pinned=False,
         is_deleted=False,
     )
+    notice1.tags.add(tag1)
+    notice2.tags.add(tag2)
     return [notice1, notice2]
 
 
@@ -66,6 +69,7 @@ def test_get_serializer_class_unknown_action(viewset_instance):
     assert serializer_class is None
 
 
+@pytest.mark.django_db
 def test_list_notice_only_is_pinned_is_true(client: APIClient, notices: list[Notice]) -> None:
     # Given
     is_pinned_notice_count = 1
@@ -83,6 +87,7 @@ def test_list_notice_only_is_pinned_is_true(client: APIClient, notices: list[Not
     assert all(item["is_pinned"] for item in data)
 
 
+@pytest.mark.django_db
 def test_list_notice_only_is_pinned_is_false(client: APIClient, notices: list[Notice]) -> None:
     """
     Test that in the notice list:
@@ -101,6 +106,7 @@ def test_list_notice_only_is_pinned_is_false(client: APIClient, notices: list[No
     assert all(not item["is_pinned"] for item in data)
 
 
+@pytest.mark.django_db
 def test_list_notice(client: APIClient, notices: list[Notice]) -> None:
     url = reverse("notice-list")
     response = client.get(url, {"page": 1})
@@ -109,6 +115,17 @@ def test_list_notice(client: APIClient, notices: list[Notice]) -> None:
     assert len(response.data["data"]) == len(notices)
 
 
+@pytest.mark.django_db
+def test_list_notice_with_tag(client: APIClient, notices: list[Notice]) -> None:
+    url = reverse("notice-list")
+    response = client.get(url, {"page": 1})
+    assert response.status_code == status.HTTP_200_OK
+
+    assert len(response.data["data"]) == len(notices)
+    assert all("tags" in item for item in response.data["data"])
+
+
+@pytest.mark.django_db
 def test_retrieve_notice(client: APIClient, notices: list[Notice]) -> None:
     for notice in notices:
         url = reverse("notice-detail", args=[notice.id])
@@ -116,8 +133,12 @@ def test_retrieve_notice(client: APIClient, notices: list[Notice]) -> None:
         assert response.status_code == status.HTTP_200_OK
         assert response.data["data"].get("id") == notice.id
         assert response.data["data"].get("title") == notice.title
+        assert response.data["data"].get("tags") == [
+            model_to_dict(tag) for tag in notice.tags.all()
+        ]
 
 
+@pytest.mark.django_db
 def test_retrieve_non_existent_notice(client: APIClient) -> None:
     url = reverse("notice-detail", args=[0])  # A non-existent ID
     response = client.get(url)
@@ -127,6 +148,7 @@ def test_retrieve_non_existent_notice(client: APIClient) -> None:
     assert response.data["error"]["code"] == "not_found"
 
 
+@pytest.mark.django_db
 def test_retrieve_deleted_notice(client: APIClient, deleted_notices: list[Notice]) -> None:
     for deleted_notice in deleted_notices:
         url = reverse("notice-detail", args=[deleted_notice.id])

@@ -1,9 +1,10 @@
 from typing import Any
 
 import pytest
+from django.forms.models import model_to_dict
 from rest_framework.exceptions import ValidationError
 
-from notice.models import Notice
+from notice.models import Notice, Tag
 from notice.serializers import NoticeSerializer, NoticeSummarizeListSerializer
 
 
@@ -15,11 +16,22 @@ def create_notices():
     return [notice1, notice2, notice3]
 
 
+@pytest.fixture
+def create_tags():
+    tag1 = Tag.objects.create(name="Tag A", domain="notice")
+    tag2 = Tag.objects.create(name="Tag B", domain="notice")
+    tag3 = Tag.objects.create(name="Tag C", domain="notice")
+    return [tag1, tag2, tag3]
+
+
 @pytest.mark.django_db
 @pytest.mark.feature
-def test_notice_summarize_list_serializer_output(create_notices):
+def test_notice_summarize_list_serializer_output(create_notices, create_tags):
     # Given
     notices = create_notices
+    tags = create_tags
+    for notice, tag in zip(notices, tags):
+        notice.tags.add(tag)
 
     # When
     serializer = NoticeSummarizeListSerializer(notices, many=True)
@@ -27,10 +39,11 @@ def test_notice_summarize_list_serializer_output(create_notices):
 
     # Then
     assert len(data) == len(notices)
-    for notice_data, notice in zip(data, notices):
+    for notice_data, notice, tag in zip(data, notices, tags):
         assert notice_data["id"] == notice.id
         assert notice_data["title"] == notice.title
         assert notice_data["is_pinned"] == notice.is_pinned
+        assert notice_data["tags"] == [model_to_dict(tag)], notice_data
         assert "content" not in notice_data
 
 

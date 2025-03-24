@@ -2,7 +2,7 @@ import pytest
 from django.core.exceptions import ValidationError
 from django.db.utils import DatabaseError
 
-from notice.models import Notice
+from notice.models import Notice, Tag
 
 
 @pytest.mark.django_db
@@ -26,6 +26,35 @@ def test_create_notice_success_given_valid_data(title: str, content: str, is_pin
     assert notice.title == notice_data.get("title")
     assert notice.content == notice_data.get("content")
     assert notice.is_pinned == notice_data.get("is_pinned")
+
+
+@pytest.mark.django_db
+@pytest.mark.feature
+@pytest.mark.parametrize(
+    "title, content, is_pinned, tag",
+    [
+        ("Welcome", "Welcome to our notice board.", False, "Greating"),
+        ("Update", "The system will be updated at midnight.", False, "System"),
+        ("Reminder", "Don't forget the meeting tomorrow.", False, "System"),
+    ],
+)
+def test_create_notice_with_tag_success_given_valid_data(
+    title: str, content: str, is_pinned: bool, tag: str
+) -> None:
+    # Given
+    tag_data: dict[str, str] = {"name": tag, "domain": "notice"}
+    notice_data: dict[str, str] = {"title": title, "content": content, "is_pinned": is_pinned}
+    tag = Tag.objects.create(**tag_data)
+
+    # When
+    notice = Notice.objects.create(**notice_data)
+    notice.tags.add(tag)
+
+    # Then
+    assert notice.title == notice_data.get("title")
+    assert notice.content == notice_data.get("content")
+    assert notice.is_pinned == notice_data.get("is_pinned")
+    assert notice.tags.first().name == tag_data.get("name")
 
 
 @pytest.mark.django_db
@@ -77,6 +106,36 @@ def test_read_notice_given_exist_notice_id(title: str, content: str, is_pinned: 
     assert fetched.title == notice_data.get("title")
     assert fetched.content == notice_data.get("content")
     assert fetched.is_pinned == notice_data.get("is_pinned")
+
+
+@pytest.mark.django_db
+@pytest.mark.feature
+@pytest.mark.parametrize(
+    "title, content, is_pinned, tag",
+    [
+        ("Welcome", "Welcome to our notice board.", False, "Greating"),
+        ("Update", "The system will be updated at midnight.", False, "System"),
+        ("Reminder", "Don't forget the meeting tomorrow.", False, "System"),
+    ],
+)
+def test_read_notice_with_tag_given_exist_notice_id(
+    title: str, content: str, is_pinned: bool, tag: str
+) -> None:
+    # Given
+    tag_data: dict[str, str] = {"name": tag, "domain": "notice"}
+    notice_data: dict[str, str] = {"title": title, "content": content, "is_pinned": is_pinned}
+    tag = Tag.objects.create(**tag_data)
+    notice = Notice.objects.create(**notice_data)
+    notice.tags.add(tag)
+
+    # When
+    fetched = Notice.objects.get(id=notice.id)
+
+    # Then
+    assert fetched.title == notice_data.get("title")
+    assert fetched.content == notice_data.get("content")
+    assert fetched.is_pinned == notice_data.get("is_pinned")
+    assert fetched.tags.first().name == tag_data.get("name")
 
 
 @pytest.mark.django_db
