@@ -34,3 +34,8 @@ class NoticeAdmin(admin.ModelAdmin):
 
     fieldsets = (("수정 가능 필드", {"fields": ("title", "content", "is_pinned")}),)
     inlines = [NoticeTagInline]
+
+    def delete_queryset(self, request, queryset):
+        # bulk 삭제 시에도 모델 delete() 호출하여 이미지도 삭제
+        for obj in queryset:
+            obj.delete()
