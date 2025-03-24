@@ -16,7 +16,7 @@ class Notice(SoftDeleteModel):
     is_pinned = models.BooleanField("상단 고정", default=False)
     created_at = models.DateTimeField("등록 일시", auto_now_add=True)
     updated_at = models.DateTimeField("수정 일시", auto_now=True)
-    tag = models.ManyToManyField(Tag, through=NoticeTag, related_name="notice")
+    tags = models.ManyToManyField(Tag, through=NoticeTag, related_name="notice")
 
     def clean(self):
         # HTML 태그 제거 테스트 추출
