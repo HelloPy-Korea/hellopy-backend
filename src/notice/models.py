@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
 
-from public.models import NoticeTag, Tag
+from public.tag_models import NoticeTag, Tag
 
 
 class Notice(models.Model):

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from public.models import NoticeTag, Tag
+from public.tag_models import NoticeTag, Tag
 
 from .models import Notice
 

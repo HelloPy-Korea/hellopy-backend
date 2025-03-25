@@ -2,7 +2,8 @@ import os
 
 from django.db import models
 
-from public.models import ActivityTag, Tag
+from public.mixin.img_models import ImageFieldMixin
+from public.tag_models import ActivityTag, Tag
 
 
 class ActivityAction(models.Model):
@@ -21,10 +22,7 @@ class ActivityAction(models.Model):
 
     def delete(self, *args, **kwargs):
         # 썸네일 이미지 삭제
-        if self.thumbnail and os.path.isfile(self.thumbnail.path):
-            os.remove(self.thumbnail.path)
 
-        # 연결된 모든 ActionPhoto 이미지 삭제
         for photo in self.photos.all():
             photo.delete()
 
@@ -34,7 +32,7 @@ class ActivityAction(models.Model):
         return self.title
 
 
-class ActionPhoto(models.Model):
+class ActionPhoto(ImageFieldMixin, models.Model):
     """커뮤니티 활동 사진 모델"""
 
     activity_action = models.ForeignKey(
@@ -44,8 +42,10 @@ class ActionPhoto(models.Model):
 
     def delete(self, *args, **kwargs):
         # 연결된 이미지 파일 삭제
-        if self.image and os.path.isfile(self.image.path):
-            os.remove(self.image.path)
+        if self.image:
+            image_path = self.image.path
+            if os.path.exists(image_path):
+                os.remove(image_path)
         super().delete(*args, **kwargs)
 
     def __str__(self):
