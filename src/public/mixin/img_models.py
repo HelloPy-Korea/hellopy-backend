@@ -11,6 +11,7 @@ class ImageFieldMixin:
     """
 
     image_field_name = "image"
+    
 
     def clean(self):
         super().clean()
@@ -27,3 +28,6 @@ class ImageFieldMixin:
             if os.path.exists(image_path):
                 os.remove(image_path)
         super().delete(*args, **kwargs)
+
+    class Meta:
+        abstract = True
