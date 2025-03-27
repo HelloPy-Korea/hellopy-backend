@@ -11,7 +11,6 @@ class ImageFieldMixin:
     """
 
     image_field_name = "image"
-    
 
     def clean(self):
         super().clean()

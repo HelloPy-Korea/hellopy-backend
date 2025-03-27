@@ -10,6 +10,8 @@ class PymonCalendar(ImageFieldMixin, models.Model):
     description = models.CharField(max_length=100, verbose_name="설명", default="파이몬 설명")
     calendar_photo = models.ImageField(upload_to="calendar/", blank=False, null=False)
 
+    image_field_name = "calendar_photo"
+
     class Meta:
         verbose_name = "이달의 달력"
         verbose_name_plural = "이달의 달력"
