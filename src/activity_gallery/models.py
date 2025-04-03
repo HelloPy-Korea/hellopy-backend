@@ -1,12 +1,11 @@
-import os
 
 from django.db import models
 
-from public.mixin.img_models import ImageFieldMixin
+from public.mixin.img_models import MultiImageFieldMixin
 from public.tag_models import ActivityTag, Tag
 
 
-class ActivityAction(models.Model):
+class ActivityAction(MultiImageFieldMixin):
     """
     ### 커뮤니티 활동 모델
     """
@@ -16,37 +15,28 @@ class ActivityAction(models.Model):
     content = models.TextField(verbose_name="내용")
     tags = models.ManyToManyField(Tag, through=ActivityTag, related_name="actions")
 
+    # MultiImageFieldMixin에서 clean, delete를 위해 필요한 정보 작성
+    image_field_names = ["thumbnail"]
+
     class Meta:
         verbose_name = "활동 갤러리"
         verbose_name_plural = "활동 갤러리"
-
-    def delete(self, *args, **kwargs):
-        # 썸네일 이미지 삭제
-
-        for photo in self.photos.all():
-            photo.delete()
-
-        super().delete(*args, **kwargs)
 
     def __str__(self):
         return self.title
 
 
-class ActionPhoto(ImageFieldMixin, models.Model):
+class ActionPhoto(MultiImageFieldMixin):
     """커뮤니티 활동 사진 모델"""
 
+    # 1:N 관계 표현을 위한 ForeignKey
     activity_action = models.ForeignKey(
         ActivityAction, on_delete=models.CASCADE, related_name="photos", null=True, blank=True
     )
     image = models.ImageField(upload_to="activity/action-photo/")
 
-    def delete(self, *args, **kwargs):
-        # 연결된 이미지 파일 삭제
-        if self.image:
-            image_path = self.image.path
-            if os.path.exists(image_path):
-                os.remove(image_path)
-        super().delete(*args, **kwargs)
+    # MultiImageFieldMixin에서 clean, delete를 위해 필요한 정보 작성
+    image_field_names = ["image"]
 
     def __str__(self):
         return f"Photo for {self.activity_action.title if self.activity_action else 'No Activity'}"

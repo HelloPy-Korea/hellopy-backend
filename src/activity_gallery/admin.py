@@ -59,10 +59,6 @@ class ActivityActionAdmin(admin.ModelAdmin):
 
     content_preview.short_description = "내용 미리보기"
 
-    def delete_model(self, request, obj):
-        # Admin에서 개별 객체 삭제 시 호출됨
-        obj.delete()
-
     def delete_queryset(self, request, queryset):
         # Admin에서 여러 객체 삭제 시 호출됨
         for obj in queryset:
