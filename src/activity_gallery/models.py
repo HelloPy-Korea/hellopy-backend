@@ -1,4 +1,3 @@
-
 from django.db import models
 
 from public.mixin.img_models import MultiImageFieldMixin
