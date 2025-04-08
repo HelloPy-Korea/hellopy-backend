@@ -15,3 +15,16 @@ class ManagementInfoAdmin(admin.ModelAdmin):
         "github",
         "photo",
     )
+    fields = (
+        "name",
+        "role",
+        "email",
+        "linkedin",
+        "github",
+        "photo",
+    )
+
+    def delete_queryset(self, request, queryset):
+        # Admin에서 여러 객체 삭제 시 호출됨
+        for obj in queryset:
+            obj.delete()

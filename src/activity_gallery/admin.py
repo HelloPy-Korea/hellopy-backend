@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from public.models import ActivityTag, Tag
+from public.tag_models import ActivityTag, Tag
 
 from .models import ActionPhoto, ActivityAction
 
@@ -58,3 +58,8 @@ class ActivityActionAdmin(admin.ModelAdmin):
         return obj.content[:50] + "..." if len(obj.content) > 50 else obj.content
 
     content_preview.short_description = "내용 미리보기"
+
+    def delete_queryset(self, request, queryset):
+        # Admin에서 여러 객체 삭제 시 호출됨
+        for obj in queryset:
+            obj.delete()

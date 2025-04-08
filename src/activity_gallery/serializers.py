@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from public.models import ActivityTag
 from public.serializers import TagSerializer
+from public.tag_models import ActivityTag
 
 from .models import ActionPhoto, ActivityAction
 

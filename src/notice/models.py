@@ -1,8 +1,12 @@
+import os
+
+from bs4 import BeautifulSoup
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
 
-from public.models import NoticeTag, Tag
+from public.tag_models import NoticeTag, Tag
 
 
 class Notice(models.Model):
@@ -15,13 +19,25 @@ class Notice(models.Model):
     tag = models.ManyToManyField(Tag, through=NoticeTag, related_name="notice")
 
     def clean(self):
-        from bs4 import BeautifulSoup
-
         # HTML 태그 제거 테스트 추출
         soup = BeautifulSoup(self.content, "html.parser")
 
         if not soup.get_text(strip=True):
             raise ValidationError({"content": "내용을 입력해주세요."})
+
+    def delete(self, *args, **kwargs):
+        self._delete_ckeditor_images()
+        super().delete(*args, **kwargs)
+
+    def _delete_ckeditor_images(self):
+        soup = BeautifulSoup(self.content, "html.parser")
+        for img_tag in soup.find_all("img"):
+            src = img_tag.get("src")
+            if src and src.startswith(settings.MEDIA_URL + "notice/ckeditor"):
+                relative_path = src.replace(settings.MEDIA_URL, "")
+                file_path = os.path.join(settings.MEDIA_ROOT, relative_path)
+                if os.path.isfile(file_path):
+                    os.remove(file_path)
 
     class Meta:
         verbose_name = "공지사항"
