@@ -10,12 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from os import environ
 from pathlib import Path
+
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = environ.Env(
+    DEBUG=(bool, False),
+    ALLOWED_HOSTS=(str, ""),
+    AWS_STORAGE_BUCKET_NAME=(str, "hellopy-bucket"),
+    AWS_S3_REGION_NAME=(str, "ap-northeast-2"),
+)
+
+environ.Env.read_env(BASE_DIR / ".env")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -24,9 +33,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-)y8gs-x9_4k0)9o#_v+i*2s-%_mwkq%%2eqx#eshs8)^&_0#4k"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = environ.get("DEBUG", False)
+DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = environ.get("ALLOWED_HOSTS", "").split(",")
+ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(",")
 
 # 외부 라이브러리 (Third-party Apps)
 THIRD_PARTY_APPS = [
@@ -35,6 +44,7 @@ THIRD_PARTY_APPS = [
     "jazzmin",
     "django_ckeditor_5",
     "django_filters",
+    "storages",
 ]
 
 # 로컬 애플리케이션 (Local Apps)
@@ -74,14 +84,45 @@ REST_FRAMEWORK = {
     "MAX_PAGE_SIZE": 100,
 }
 
+# AWS S3 Settings
+# AWS 인증 정보 (환경 변수 또는 별도의 안전한 방법을 이용하세요)
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
+
+# S3 버킷 이름 및 리전 설정
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")  # 본인의 버킷 이름 입력
+AWS_S3_REGION_NAME = env("AWS_S3_REGION_NAME")
+AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com"
+
+# 추가 설정 예시: 파일 오버라이트 방지, 캐싱 정책 등
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None  # 또는 'public-read' 등 사용 사례에 맞게 설정
+
 # Media files (Uploaded files)
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
-CKEDITOR_5_FILE_STORAGE = "notice.storage.NoticeCKEditorStorage"
+MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+CKEDITOR_5_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
-STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "OPTIONS": {
+            "location": "media/",
+        },
+    },
+    "staticfiles": {
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "OPTIONS": {
+            "location": "static/",
+        },
+    },
+}
 
 # CKEditor 기본 설정 (추가 or 제거 할 설정 pr에 적어주시길)
 customColorPalette = [
