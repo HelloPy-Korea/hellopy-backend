@@ -9,7 +9,6 @@ COPY . .
 
 RUN pip3 install uv
 RUN uv sync
-RUN uv run python src/manage.py collectstatic --noinput
 
 
 FROM python:3.12-slim
