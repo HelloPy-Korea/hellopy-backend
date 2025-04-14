@@ -1,4 +1,4 @@
-FROM python:3.12-slim as builder
+FROM python:3.12-slim AS builder
 
 ENV WORKSPACE=/workspace
 ARG DEBIAN_FRONTEND=noninteractive
@@ -22,6 +22,8 @@ COPY --from=builder $WORKSPACE/.venv/lib/python3.12/site-packages/ /usr/local/li
 COPY --from=builder $WORKSPACE/src .
 COPY ./docker/entrypoint.sh $WORKSPACE/entrypoint.sh
 
+RUN chmod +x $WORKSPACE/entrypoint.sh
+
 EXPOSE 8080
 
-ENTRYPOINT [ "entrypoint.sh" ]
+ENTRYPOINT [ "sh", "./entrypoint.sh" ]
