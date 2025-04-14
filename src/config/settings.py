@@ -22,6 +22,7 @@ env = environ.Env(
     ALLOWED_HOSTS=(str, ""),
     AWS_STORAGE_BUCKET_NAME=(str, "hellopy-bucket"),
     AWS_S3_REGION_NAME=(str, "ap-northeast-2"),
+    CSRF_TRUSTED_ORIGINS=(str, "https://localhost,http://localhost"),
 )
 
 environ.Env.read_env(BASE_DIR / ".env")
@@ -36,6 +37,9 @@ SECRET_KEY = "django-insecure-)y8gs-x9_4k0)9o#_v+i*2s-%_mwkq%%2eqx#eshs8)^&_0#4k
 DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = env("ALLOWED_HOSTS").split(",")
+
+# CSRF settings
+CSRF_TRUSTED_ORIGINS = env("CSRF_TRUSTED_ORIGINS").split(",")
 
 # 외부 라이브러리 (Third-party Apps)
 THIRD_PARTY_APPS = [
