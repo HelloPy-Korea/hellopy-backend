@@ -20,7 +20,8 @@ WORKDIR $WORKSPACE
 
 COPY --from=builder $WORKSPACE/.venv/lib/python3.12/site-packages/ /usr/local/lib/python3.12/site-packages/
 COPY --from=builder $WORKSPACE/src .
+COPY ./docker/entrypoint.sh $WORKSPACE/entrypoint.sh
 
 EXPOSE 8080
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+ENTRYPOINT [ "entrypoint.sh" ]
