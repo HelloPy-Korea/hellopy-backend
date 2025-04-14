@@ -6,7 +6,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("notice", "0004_alter_notice_options"),
+        ("notice", "0005_alter_notice_options_alter_notice_is_deleted"),
         ("public", "0006_alter_tag_options_alter_tag_name"),
     ]
 
