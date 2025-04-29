@@ -39,7 +39,7 @@ class MultiImageFieldMixin(models.Model):
         import boto3
         from botocore.exceptions import ClientError
 
-        s3 = boto3.client('s3')
+        s3 = boto3.client("s3")
         bucket_name = settings.AWS_STORAGE_BUCKET_NAME  # settings에서 버킷 이름 가져오기
 
         for field_name in self.image_field_names:
