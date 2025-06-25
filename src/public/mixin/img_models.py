@@ -1,5 +1,4 @@
-from pathlib import Path
-
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 
@@ -36,12 +35,22 @@ class MultiImageFieldMixin(models.Model):
                 )
 
     def delete(self, *args, **kwargs):
+        print(f"Deleting instance: {self}")
+        import boto3
+        from botocore.exceptions import ClientError
+
+        s3 = boto3.client("s3")
+        bucket_name = settings.AWS_STORAGE_BUCKET_NAME  # settings에서 버킷 이름 가져오기
+
         for field_name in self.image_field_names:
             image_field = getattr(self, field_name, None)
-            if image_field and hasattr(image_field, "path"):
-                image_path = Path(image_field.path)
-                if image_path.is_file():
-                    image_path.unlink()
+            if image_field and hasattr(image_field, "name"):
+                try:
+                    print(f"Deleting file from S3: {image_field.name}")
+                    s3.delete_object(Bucket=bucket_name, Key=image_field.name)
+                except ClientError as e:
+                    print(f"Failed to delete {image_field.name} from S3: {e}")
+
         super().delete(*args, **kwargs)
 
     class Meta:
