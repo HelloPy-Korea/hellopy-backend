@@ -102,3 +102,58 @@ class ActivityActionAPIDocs(SwaggerSchema):
             description="특정 커뮤니티 활동 상세 조회",
             responses=responses,
         )
+
+
+class ActivityHistoryAPIDocs(SwaggerSchema):
+    """활동 히스토리 API 문서"""
+
+    sample_activity_list = [
+        {
+            "id": 1,
+            "title": "활동 제목 1",
+            "content": "월드 와이드 파이콘",
+            "activity_date": "2024-01-01",
+        },
+        {
+            "id": 2,
+            "title": "활동 제목 2",
+            "content": "월드 와이드 파이콘2",
+            "activity_date": "2024-06-01",
+        },
+    ]
+
+    @classmethod
+    def list(cls):
+        """활동 히스토리 목록 조회 문서"""
+        responses = {
+            "성공": OpenApiResponse(
+                response=ListSuccessResponseSerializer,
+                description="활동 히스토리 목록 조회 성공",
+                examples=[
+                    OpenApiExample(
+                        name="활동 히스토리 목록 조회",
+                        value={
+                            "status": "SUCCESS",
+                            "data": cls.sample_activity_list,
+                            "error": None,
+                            "pagination": {"count": 2, "next": None, "previous": None},
+                        },
+                    ),
+                    OpenApiExample(
+                        name="활동 히스토리 목록 조회 (데이터 없음)",
+                        value={
+                            "status": "SUCCESS",
+                            "data": [],
+                            "error": None,
+                            "pagination": {"count": 0, "next": None, "previous": None},
+                        },
+                    ),
+                ],
+            ),
+            "에러": OpenApiResponse(response=ErrorResponseSerializer, description="응답 에러"),
+        }
+        return cls.generate_schema(
+            operation_id="activity_action_list",
+            description="모든 활동 히스토리 목록 조회",
+            responses=responses,
+        )
