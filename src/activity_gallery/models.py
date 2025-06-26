@@ -1,5 +1,6 @@
 from django.db import models
 
+from core.mixins.models import SoftDeleteModel
 from public.mixin.img_models import MultiImageFieldMixin
 from public.tag_models import ActivityTag, Tag
 
@@ -39,3 +40,22 @@ class ActionPhoto(MultiImageFieldMixin):
 
     def __str__(self):
         return f"Photo for {self.activity_action.title if self.activity_action else 'No Activity'}"
+
+
+class ActivityHistory(SoftDeleteModel):
+    title = models.CharField(max_length=255, verbose_name="활동명")
+    content = models.TextField(verbose_name="내용")
+    thumbnail = models.ImageField(
+        "활동 썸네일 이미지", upload_to="activity/history/thumbnail/", null=True, blank=True
+    )
+    activity_date = models.DateField(verbose_name="활동 날짜")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="생성일")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="수정일")
+
+    class Meta:
+        verbose_name = "활동 히스토리"
+        verbose_name_plural = "활동 히스토리"
+        ordering = ("activity_date",)
+
+    def __str__(self):
+        return f"History for {self.title} at {self.activity_date}"

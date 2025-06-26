@@ -4,12 +4,13 @@ from rest_framework.viewsets import GenericViewSet
 
 from core.responses.base import BaseResponse
 
-from .models import ActivityAction
+from .models import ActivityAction, ActivityHistory
 from .serializers import (
     ActivityActionDetailSerializer,
     ActivityActionListSerializer,
+    ActivityHistorySerializer,
 )
-from .swagger import ActivityActionAPIDocs
+from .swagger import ActivityActionAPIDocs, ActivityHistoryAPIDocs
 
 
 @extend_schema_view(
@@ -42,3 +43,18 @@ class ActivityActionViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return BaseResponse(serializer.data)
+
+
+@extend_schema_view(list=ActivityHistoryAPIDocs.list())
+class ActivityHistoryViewSet(GenericViewSet, ListModelMixin):
+    """활동 히스토리 API 뷰"""
+
+    queryset = ActivityHistory.objects.filter(is_deleted=False).all()
+    serializer_class = ActivityHistorySerializer
+
+    def list(self, request, *args, **kwargs) -> BaseResponse:
+        """활동 히스토리 목록 조회 API"""
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+        serializer = self.get_serializer(page or queryset, many=True)
+        return self.get_paginated_response(serializer.data)

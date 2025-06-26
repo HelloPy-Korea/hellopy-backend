@@ -3,7 +3,7 @@ from rest_framework import serializers
 from public.serializers import TagSerializer
 from public.tag_models import ActivityTag
 
-from .models import ActionPhoto, ActivityAction
+from .models import ActionPhoto, ActivityAction, ActivityHistory
 
 
 # 액션과 연결된 사진 정보를 직렬화하는 Serializer
@@ -44,3 +44,14 @@ class ActivityActionDetailSerializer(serializers.ModelSerializer):
             "tags",
             "photos",
         ]  # 상세 조회 시 모든 정보 포함
+
+
+class ActivityHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ActivityHistory
+        fields = [
+            "id",
+            "title",
+            "content",
+            "activity_date",
+        ]
