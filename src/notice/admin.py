@@ -27,7 +27,7 @@ class NoticeTagInline(admin.TabularInline):
 
 @admin.register(Notice)
 class NoticeAdmin(admin.ModelAdmin):
-    list_display = ("id", "title", "is_pinned")
+    list_display = ("id", "title", "is_pinned", "is_deleted")
     list_filter = ("is_pinned",)
     search_fields = ("title", "content")
     ordering = ("-created_at",)

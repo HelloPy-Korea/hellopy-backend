@@ -1,12 +1,12 @@
-import os
-
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django_ckeditor_5.fields import CKEditor5Field
+from django_ckeditor_5.signals import extract_image_paths
 
 from core.mixins.models import SoftDeleteModel
+from core.storage import s3_delete_file
 from public.tag_models import NoticeTag, Tag
 
 
@@ -30,14 +30,14 @@ class Notice(SoftDeleteModel):
         super().delete(*args, **kwargs)
 
     def _delete_ckeditor_images(self):
-        soup = BeautifulSoup(self.content, "html.parser")
-        for img_tag in soup.find_all("img"):
-            src = img_tag.get("src")
-            if src and src.startswith(settings.MEDIA_URL + "notice/ckeditor"):
-                relative_path = src.replace(settings.MEDIA_URL, "")
-                file_path = os.path.join(settings.MEDIA_ROOT, relative_path)
-                if os.path.isfile(file_path):
-                    os.remove(file_path)
+        images_to_delete = extract_image_paths(self.content)
+        try:
+            for img_path in images_to_delete:
+                # CKEditor5Field의 이미지 경로는 상대 경로이므로, 절대 경로로 변환
+                file_path = img_path.removeprefix(f"https://{settings.AWS_S3_CUSTOM_DOMAIN}/")
+                s3_delete_file(file_path)
+        except Exception as e:
+            raise ValidationError(f"이미지 삭제 오류: {e}")
 
     class Meta:
         verbose_name = "공지사항"
