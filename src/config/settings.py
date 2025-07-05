@@ -137,6 +137,9 @@ customColorPalette = [
     {"color": "hsl(231, 48%, 48%)", "label": "Indigo"},
     {"color": "hsl(207, 90%, 54%)", "label": "Blue"},
 ]
+
+CKEDITOR_5_UPLOAD_DIRECTORY_PREFIX = "editor/"
+CK_EDITOR_5_UPLOAD_FILE_VIEW_NAME = "custom_upload_file"
 CKEDITOR_5_CONFIGS = {
     "default": {
         "toolbar": {

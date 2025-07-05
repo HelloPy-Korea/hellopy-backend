@@ -12,7 +12,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("ckeditor5/", include("django_ckeditor_5.urls")),  # ckeditor5
+    path("api/public/", include("public.urls")),
     path("api/faqs/", include("faq.urls")),
     path("api/merchandise/", include("merchandise.urls")),
     path("api/notice/", include("notice.urls")),
