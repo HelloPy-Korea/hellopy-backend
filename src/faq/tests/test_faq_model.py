@@ -197,7 +197,7 @@ def test_delete_faq_when_soft_delete_operation(
     faq.delete()
 
     # Then
-    deleted = FAQ.objects.get(id=faq_id)
+    deleted = FAQ.all_objects.get(id=faq_id)
     assert deleted.is_deleted is True
 
 

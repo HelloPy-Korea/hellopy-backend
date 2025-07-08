@@ -86,7 +86,7 @@ def test_faq_serializer_is_valid_false_given_invalid_data(
         (
             "What is the best way to learn Python?",
             "The best way to learn Python is to practice coding every day.",
-            True,
+            False,
         ),
     ],
 )

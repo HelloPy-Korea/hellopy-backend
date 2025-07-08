@@ -170,5 +170,5 @@ def test_delete_activity_history_when_soft_delete_operation() -> None:
     history.delete()
 
     # Then
-    deleted = ActivityHistory.objects.get(id=history.id)
+    deleted = ActivityHistory.all_objects.get(id=history.id)
     assert deleted.is_deleted is True
