@@ -285,7 +285,7 @@ def test_delete_notice_when_soft_delete_operation(
     notice.delete()
 
     # Then
-    deleted = Notice.objects.get(id=notice_id)
+    deleted = Notice.all_objects.get(id=notice_id)
     assert deleted.is_deleted is True
 
 
