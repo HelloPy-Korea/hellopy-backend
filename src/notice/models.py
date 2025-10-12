@@ -14,6 +14,7 @@ class Notice(SoftDeleteModel):
     title = models.CharField("제목", max_length=255)
     content = CKEditor5Field("본문", config_name="extends", null=False, blank=False)
     is_pinned = models.BooleanField("상단 고정", default=False)
+    is_visible = models.BooleanField("공지사항 공개 여부", default=True)
     created_at = models.DateTimeField("등록 일시", auto_now_add=True)
     updated_at = models.DateTimeField("수정 일시", auto_now=True)
     tags = models.ManyToManyField(Tag, through=NoticeTag, related_name="notice")

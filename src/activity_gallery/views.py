@@ -22,7 +22,9 @@ class ActivityActionViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
 
     def get_queryset(self):
         """공통 쿼리셋"""
-        return ActivityAction.objects.prefetch_related("photos", "activity_tags__tag").all()
+        return ActivityAction.objects.prefetch_related("photos", "activity_tags__tag").filter(
+            is_visible=True
+        )
 
     def get_serializer_class(self):
         """요청 방식에 따라 적절한 Serializer 반환"""
@@ -49,8 +51,10 @@ class ActivityActionViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
 class ActivityHistoryViewSet(GenericViewSet, ListModelMixin):
     """활동 히스토리 API 뷰"""
 
-    queryset = ActivityHistory.objects.filter(is_deleted=False).all()
     serializer_class = ActivityHistorySerializer
+
+    def get_queryset(self):
+        return ActivityHistory.objects.filter(is_visible=True).all()
 
     def list(self, request, *args, **kwargs) -> BaseResponse:
         """활동 히스토리 목록 조회 API"""

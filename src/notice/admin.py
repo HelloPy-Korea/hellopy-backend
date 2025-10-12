@@ -27,12 +27,13 @@ class NoticeTagInline(admin.TabularInline):
 
 @admin.register(Notice)
 class NoticeAdmin(admin.ModelAdmin):
-    list_display = ("id", "title", "is_pinned", "is_deleted")
-    list_filter = ("is_pinned",)
+    list_display = ("id", "title", "is_pinned", "is_visible")
+    list_filter = ("is_pinned", "is_visible")
+    exclude = ("is_deleted",)
+    list_editable = ("is_visible", "is_pinned")
     search_fields = ("title", "content")
     ordering = ("-created_at",)
 
-    fieldsets = (("수정 가능 필드", {"fields": ("title", "content", "is_pinned")}),)
     inlines = [NoticeTagInline]
 
     def delete_queryset(self, request, queryset):

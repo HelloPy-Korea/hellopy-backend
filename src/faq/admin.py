@@ -7,4 +7,6 @@ from .models import FAQ
 
 @admin.register(FAQ)
 class FAQAdmin(admin.ModelAdmin):
-    list_display = ("question", "answer")
+    list_display = ("question", "answer", "is_visible")
+    list_editable = ("is_visible",)
+    exclude = ("is_deleted",)

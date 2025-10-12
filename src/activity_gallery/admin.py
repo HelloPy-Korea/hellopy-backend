@@ -49,9 +49,11 @@ class ActionPhotoInline(admin.TabularInline):
 class ActivityActionAdmin(admin.ModelAdmin):
     """커뮤니티 활동 관리자 페이지"""
 
-    list_display = ("id", "title", "content_preview")
+    list_display = ("id", "title", "content_preview", "is_visible")
+    list_editable = ("is_visible",)
     search_fields = ("title", "content")
     inlines = [ActivityTagInline, ActionPhotoInline]  # 태그 & 사진 추가 가능
+    exclude = ("is_deleted",)
 
     def content_preview(self, obj):
         """내용이 길 경우 일부만 미리보기"""
@@ -69,8 +71,10 @@ class ActivityActionAdmin(admin.ModelAdmin):
 class ActivityHistoryAdmin(admin.ModelAdmin):
     """활동 히스토리 관리자 페이지"""
 
-    list_display = ("title", "activity_date")
+    list_display = ("title", "activity_date", "is_visible")
+    list_editable = ("is_visible",)
     search_fields = ("title", "content", "activity_date")
+    exclude = ("is_deleted",)
 
     def content_preview(self, obj):
         """내용이 길 경우 일부만 미리보기"""
